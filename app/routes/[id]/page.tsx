@@ -14,7 +14,7 @@ import {
   Calendar,
   Phone
 } from 'lucide-react';
-import { supabase, Route, BusRoute, Fare, safeQuery } from '@/lib/supabase';
+import { supabase, Route, BusRoute, Fare, safeQuery, logSupabaseError } from '@/lib/supabase';
 import ErrorMessage from '@/components/ErrorMessage';
 import EmptyState from '@/components/EmptyState';
 
@@ -96,7 +96,7 @@ export default function RouteDetailPage() {
         if (!ignore && fareData) setFares(fareData as unknown as Fare[]);
 
       } catch (err) {
-        console.error('Route detail error:', err);
+        logSupabaseError('Route detail error:', err);
         if (!ignore) setError('রুটের বিস্তারিত তথ্য লোড করা যায়নি।');
       } finally {
         if (!ignore) setLoading(false);

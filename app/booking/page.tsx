@@ -18,7 +18,7 @@ import {
   Search,
   Clock
 } from 'lucide-react';
-import { supabase, Booking, Bus as BusType, MiniCoach, TourPackage, safeQuery } from '@/lib/supabase';
+import { supabase, Booking, Bus as BusType, MiniCoach, TourPackage, safeQuery, logSupabaseError } from '@/lib/supabase';
 import ErrorMessage from '@/components/ErrorMessage';
 
 function BookingFormContent() {
@@ -141,7 +141,7 @@ function BookingFormContent() {
 
       setSubmitSuccess(true);
     } catch (err: unknown) {
-      console.error('Booking submission error:', err);
+      logSupabaseError('Booking submission error:', err);
       setSubmitError('বুকিং অনুরোধ পাঠাতে ত্রুটি হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন বা সরাসরি হটলাইনে যোগাযোগ করুন।');
     } finally {
       setSubmitting(false);
@@ -164,7 +164,7 @@ function BookingFormContent() {
       setMyBookings(data || []);
       setStatusChecked(true);
     } catch (err) {
-      console.error('Status check error:', err);
+      logSupabaseError('Status check error:', err);
     } finally {
       setCheckingStatus(false);
     }

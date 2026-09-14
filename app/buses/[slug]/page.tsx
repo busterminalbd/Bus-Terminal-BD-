@@ -17,7 +17,7 @@ import {
   ChevronRight,
   ShieldCheck
 } from 'lucide-react';
-import { supabase, Bus, BusOperator, BusRoute, Counter, Fare, safeQuery } from '@/lib/supabase';
+import { supabase, Bus, BusOperator, BusRoute, Counter, Fare, safeQuery, logSupabaseError } from '@/lib/supabase';
 import ErrorMessage from '@/components/ErrorMessage';
 import EmptyState from '@/components/EmptyState';
 
@@ -44,8 +44,8 @@ export default function BusDetailPage() {
 
         const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(slugParam);
 
-        // Fetch bus by slug or ID
-        const { data: busData, error: bError } = await safeQuery<Bus>((col) => {
+        // Fetch bus by slug or ID (joined with its operator)
+        let { data: busData, error: bError } = await safeQuery<Bus>((col) => {
           let q = supabase
             .from('buses')
             .select(`
@@ -60,6 +60,36 @@ export default function BusDetailPage() {
           }
           return q.single();
         });
+
+        // If the joined query fails (e.g. the bus_operators relationship
+        // isn't recognized by PostgREST's schema cache), fall back to a
+        // plain query on the buses table and fetch the operator separately.
+        if (bError) {
+          logSupabaseError('Bus detail load error (joined query failed, retrying without join):', bError);
+
+          const fallback = await safeQuery<Bus>((col) => {
+            let q = supabase.from('buses').select('*');
+            if (col) q = q.eq(col, true);
+            if (isUUID) {
+              q = q.eq('id', slugParam);
+            } else {
+              q = q.eq('slug', slugParam);
+            }
+            return q.single();
+          });
+
+          busData = fallback.data;
+          bError = fallback.error;
+
+          if (!bError && busData?.operator_id) {
+            const { data: opRow } = await supabase
+              .from('bus_operators')
+              .select('*')
+              .eq('id', busData.operator_id)
+              .maybeSingle();
+            if (opRow) busData = { ...busData, bus_operators: opRow };
+          }
+        }
 
         if (ignore) return;
         if (bError) throw bError;
@@ -124,7 +154,7 @@ export default function BusDetailPage() {
           if (!ignore && fareData) setFares(fareData as unknown as Fare[]);
         }
       } catch (err) {
-        console.error('Bus details load error:', err);
+        logSupabaseError('Bus details load error:', err);
         if (!ignore) setError('বাসের বিস্তারিত তথ্য লোড করা সম্ভব হয়নি।');
       } finally {
         if (!ignore) setLoading(false);

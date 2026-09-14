@@ -3,7 +3,7 @@
 import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Route as RouteIcon, MapPin, Search, ArrowRight, Clock } from 'lucide-react';
-import { supabase, Route, District, safeQuery } from '@/lib/supabase';
+import { supabase, Route, District, safeQuery, logSupabaseError } from '@/lib/supabase';
 import RouteCard from '@/components/RouteCard';
 import EmptyState from '@/components/EmptyState';
 import ErrorMessage from '@/components/ErrorMessage';
@@ -64,7 +64,7 @@ function RoutesContent() {
 
         setRoutes((routeData as unknown as Route[]) || []);
       } catch (err) {
-        console.error('Routes load error:', err);
+        logSupabaseError('Routes load error:', err);
         if (!ignore) setError('রুটের তথ্য লোড করা যায়নি।');
       } finally {
         if (!ignore) setLoading(false);

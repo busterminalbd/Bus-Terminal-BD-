@@ -5,7 +5,7 @@ import { useParams } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Car, Users, Phone, ArrowLeft, ShieldCheck, CheckCircle2 } from 'lucide-react';
-import { supabase, MiniCoach, safeQuery } from '@/lib/supabase';
+import { supabase, MiniCoach, safeQuery, logSupabaseError } from '@/lib/supabase';
 import ErrorMessage from '@/components/ErrorMessage';
 
 export default function MiniCoachDetailPage() {
@@ -42,7 +42,7 @@ export default function MiniCoachDetailPage() {
         if (sbError) throw sbError;
         setCoach(data);
       } catch (err) {
-        console.error('Coach load error:', err);
+        logSupabaseError('Coach load error:', err);
         if (!ignore) setError('মিনি কোচের তথ্য লোড করা যায়নি।');
       } finally {
         if (!ignore) setLoading(false);

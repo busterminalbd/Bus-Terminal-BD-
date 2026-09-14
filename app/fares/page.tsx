@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { DollarSign, Search, Filter, Bus as BusIcon, ArrowRight, Calendar } from 'lucide-react';
-import { supabase, Fare, District, Bus, safeQuery } from '@/lib/supabase';
+import { supabase, Fare, District, Bus, safeQuery, logSupabaseError } from '@/lib/supabase';
 import EmptyState from '@/components/EmptyState';
 import ErrorMessage from '@/components/ErrorMessage';
 
@@ -70,7 +70,7 @@ export default function FaresPage() {
         if (fError) throw fError;
         setFares((fareData as unknown as Fare[]) || []);
       } catch (err) {
-        console.error('Fares load error:', err);
+        logSupabaseError('Fares load error:', err);
         if (!ignore) setError('ভাড়ার তালিকা লোড করা সম্ভব হয়নি।');
       } finally {
         if (!ignore) setLoading(false);

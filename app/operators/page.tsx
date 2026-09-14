@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Building2, Search } from 'lucide-react';
-import { supabase, BusOperator, safeQuery } from '@/lib/supabase';
+import { supabase, BusOperator, safeQuery, logSupabaseError } from '@/lib/supabase';
 import OperatorCard from '@/components/OperatorCard';
 import EmptyState from '@/components/EmptyState';
 import ErrorMessage from '@/components/ErrorMessage';
@@ -28,7 +28,7 @@ export default function OperatorsPage() {
         if (sbError) throw sbError;
         setOperators(data || []);
       } catch (err: unknown) {
-        console.error('Failed to load operators:', err);
+        logSupabaseError('Failed to load operators:', err);
         if (!ignore) setError('বাস অপারেটরদের তালিকা লোড করা সম্ভব হয়নি।');
       } finally {
         if (!ignore) setLoading(false);

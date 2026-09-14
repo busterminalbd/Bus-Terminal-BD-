@@ -16,7 +16,7 @@ import {
   ArrowLeft, 
   AlertCircle 
 } from 'lucide-react';
-import { supabase, TourPackage, safeQuery } from '@/lib/supabase';
+import { supabase, TourPackage, safeQuery, logSupabaseError } from '@/lib/supabase';
 import ErrorMessage from '@/components/ErrorMessage';
 
 export default function TourDetailPage() {
@@ -53,7 +53,7 @@ export default function TourDetailPage() {
         if (sbError) throw sbError;
         setTour(data);
       } catch (err) {
-        console.error('Tour load error:', err);
+        logSupabaseError('Tour load error:', err);
         if (!ignore) setError('ট্যুর প্যাকেজের তথ্য লোড করা যায়নি।');
       } finally {
         if (!ignore) setLoading(false);

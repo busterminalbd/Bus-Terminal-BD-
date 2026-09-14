@@ -21,7 +21,7 @@ import {
   CheckCircle2,
   Sparkles
 } from 'lucide-react';
-import { supabase, isSupabaseConfigured, District, Bus as BusType, BusOperator, Route, TourPackage, MiniCoach, safeQuery } from '@/lib/supabase';
+import { supabase, isSupabaseConfigured, District, Bus as BusType, BusOperator, Route, TourPackage, MiniCoach, safeQuery, logSupabaseError } from '@/lib/supabase';
 import ConfigAlert from '@/components/ConfigAlert';
 import BusCard from '@/components/BusCard';
 import OperatorCard from '@/components/OperatorCard';
@@ -136,7 +136,7 @@ export default function HomePage() {
         if (!ignore && toursData) setTourPackages(toursData);
 
       } catch (err) {
-        console.error('Home data load error:', err);
+        logSupabaseError('Home data load error:', err);
       } finally {
         if (!ignore) setLoading(false);
       }

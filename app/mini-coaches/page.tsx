@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Car, Search, Phone, ShieldCheck, Users } from 'lucide-react';
-import { supabase, MiniCoach, safeQuery } from '@/lib/supabase';
+import { supabase, MiniCoach, safeQuery, logSupabaseError } from '@/lib/supabase';
 import MiniCoachCard from '@/components/MiniCoachCard';
 import EmptyState from '@/components/EmptyState';
 import ErrorMessage from '@/components/ErrorMessage';
@@ -31,7 +31,7 @@ export default function MiniCoachesPage() {
         if (sbError) throw sbError;
         setCoaches(data || []);
       } catch (err) {
-        console.error('Mini coaches error:', err);
+        logSupabaseError('Mini coaches error:', err);
         if (!ignore) setError('মিনি কোচের তথ্য লোড করা যায়নি।');
       } finally {
         if (!ignore) setLoading(false);

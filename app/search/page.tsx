@@ -4,7 +4,7 @@ import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Search, Bus, Building2, Route as RouteIcon, MapPin, Compass } from 'lucide-react';
-import { supabase, Bus as BusType, BusOperator, Route as RouteType, District, TourPackage, safeQuery } from '@/lib/supabase';
+import { supabase, Bus as BusType, BusOperator, Route as RouteType, District, TourPackage, safeQuery, logSupabaseError } from '@/lib/supabase';
 import BusCard from '@/components/BusCard';
 import OperatorCard from '@/components/OperatorCard';
 import RouteCard from '@/components/RouteCard';
@@ -96,7 +96,7 @@ function SearchContent() {
       if (tData) setTours(tData as TourPackage[]);
 
     } catch (err) {
-      console.error('Search error:', err);
+      logSupabaseError('Search error:', err);
     } finally {
       setLoading(false);
     }
@@ -169,7 +169,7 @@ function SearchContent() {
           if (ignore) return;
           if (tData) setTours(tData as TourPackage[]);
         } catch (err) {
-          console.error('Search error:', err);
+          logSupabaseError('Search error:', err);
         } finally {
           if (!ignore) setLoading(false);
         }

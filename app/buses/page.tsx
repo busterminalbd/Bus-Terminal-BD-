@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Bus as BusIcon, Search, Filter, Sparkles } from 'lucide-react';
-import { supabase, Bus, BusOperator, safeQuery } from '@/lib/supabase';
+import { supabase, Bus, BusOperator, safeQuery, isSupabaseConfigured, logSupabaseError } from '@/lib/supabase';
 import BusCard from '@/components/BusCard';
 import EmptyState from '@/components/EmptyState';
 import ErrorMessage from '@/components/ErrorMessage';
@@ -22,19 +22,28 @@ export default function BusesPage() {
 
   useEffect(() => {
     let ignore = false;
+
     async function loadBuses() {
       try {
-        // Fetch active operators for filter dropdown
-        const { data: opData } = await safeQuery<BusOperator[]>((col) => {
-          let q = supabase.from('bus_operators').select('id, name, slug');
+        if (!isSupabaseConfigured) {
+          console.error(
+            'Buses load error: Supabase is not configured. Set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY.'
+          );
+        }
+
+        // Fetch active operators for filter dropdown (also used below to
+        // attach operator info to buses if the joined query needs a fallback)
+        const { data: opData, error: opError } = await safeQuery<BusOperator[]>((col) => {
+          let q = supabase.from('bus_operators').select('id, name, slug, logo_url');
           if (col) q = q.eq(col, true);
           return q.order('name');
         });
 
+        if (opError) logSupabaseError('Operators load error:', opError);
         if (!ignore && opData) setOperators(opData);
 
-        // Fetch active buses with operators
-        const { data: busData, error: sbError } = await safeQuery<Bus[]>((col) => {
+        // Fetch active buses with operators joined
+        let { data: busData, error: sbError } = await safeQuery<Bus[]>((col) => {
           let q = supabase.from('buses').select(`
             *,
             bus_operators(id, name, slug, logo_url)
@@ -43,11 +52,36 @@ export default function BusesPage() {
           return q.order('name');
         });
 
+        // If the joined query fails (e.g. the bus_operators relationship
+        // isn't recognized by PostgREST's schema cache), fall back to a
+        // plain query on the buses table and attach operator info on the
+        // client so real data still loads instead of showing an error.
+        if (sbError) {
+          logSupabaseError('Buses load error (joined query failed, retrying without join):', sbError);
+
+          const fallback = await safeQuery<Bus[]>((col) => {
+            let q = supabase.from('buses').select('*');
+            if (col) q = q.eq(col, true);
+            return q.order('name');
+          });
+
+          busData = fallback.data;
+          sbError = fallback.error;
+
+          if (!sbError && busData && opData) {
+            const opMap = new Map(opData.map((o) => [o.id, o]));
+            busData = busData.map((b: Bus) => ({
+              ...b,
+              bus_operators: opMap.get(b.operator_id) || null,
+            })) as unknown as Bus[];
+          }
+        }
+
         if (ignore) return;
         if (sbError) throw sbError;
         setBuses((busData as unknown as Bus[]) || []);
       } catch (err) {
-        console.error('Buses load error:', err);
+        logSupabaseError('Buses load error:', err);
         if (!ignore) setError('বাসের তালিকা লোড করতে সমস্যা হয়েছে।');
       } finally {
         if (!ignore) setLoading(false);

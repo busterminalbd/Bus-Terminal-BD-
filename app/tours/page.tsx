@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Compass, Search, MapPin, Clock, Users } from 'lucide-react';
-import { supabase, TourPackage, safeQuery } from '@/lib/supabase';
+import { supabase, TourPackage, safeQuery, logSupabaseError } from '@/lib/supabase';
 import TourCard from '@/components/TourCard';
 import EmptyState from '@/components/EmptyState';
 import ErrorMessage from '@/components/ErrorMessage';
@@ -30,7 +30,7 @@ export default function ToursPage() {
         if (sbError) throw sbError;
         setTours(data || []);
       } catch (err) {
-        console.error('Tours load error:', err);
+        logSupabaseError('Tours load error:', err);
         if (!ignore) setError('ট্যুর প্যাকেজ লোড করা যায়নি।');
       } finally {
         if (!ignore) setLoading(false);

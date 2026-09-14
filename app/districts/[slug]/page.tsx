@@ -13,7 +13,7 @@ import {
   ChevronRight,
   Navigation
 } from 'lucide-react';
-import { supabase, District, Route, Counter, safeQuery } from '@/lib/supabase';
+import { supabase, District, Route, Counter, safeQuery, logSupabaseError } from '@/lib/supabase';
 import RouteCard from '@/components/RouteCard';
 import ErrorMessage from '@/components/ErrorMessage';
 import EmptyState from '@/components/EmptyState';
@@ -89,7 +89,7 @@ export default function DistrictDetailPage() {
         }
 
       } catch (err) {
-        console.error('District detail error:', err);
+        logSupabaseError('District detail error:', err);
         if (!ignore) setError('জেলার তথ্য লোড করা যায়নি।');
       } finally {
         if (!ignore) setLoading(false);

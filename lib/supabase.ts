@@ -214,3 +214,18 @@ export async function safeQuery<T>(
   const res3 = await queryBuilderFn(null);
   return res3 as { data: T | null; error: { code?: string; message?: string } | null };
 }
+
+/**
+ * Logs a Supabase/PostgREST error's actual fields (message, details, hint, code)
+ * instead of dumping the raw error object, which can print as "{}" in the
+ * console (this happens for plain Error/network-failure objects since their
+ * message/stack properties are non-enumerable).
+ */
+export function logSupabaseError(label: string, err: any): void {
+  console.error(label, {
+    message: err?.message ?? null,
+    details: err?.details ?? null,
+    hint: err?.hint ?? null,
+    code: err?.code ?? null,
+  });
+}

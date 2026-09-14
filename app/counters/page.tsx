@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { MapPin, Search, Phone, ExternalLink, Building2, Filter } from 'lucide-react';
-import { supabase, Counter, District, safeQuery } from '@/lib/supabase';
+import { supabase, Counter, District, safeQuery, logSupabaseError } from '@/lib/supabase';
 import EmptyState from '@/components/EmptyState';
 import ErrorMessage from '@/components/ErrorMessage';
 
@@ -51,7 +51,7 @@ export default function CountersPage() {
         if (cError) throw cError;
         setCounters((cData as unknown as Counter[]) || []);
       } catch (err) {
-        console.error('Counters load error:', err);
+        logSupabaseError('Counters load error:', err);
         if (!ignore) setError('কাউন্টারের তথ্য লোড করা সম্ভব হয়নি।');
       } finally {
         if (!ignore) setLoading(false);

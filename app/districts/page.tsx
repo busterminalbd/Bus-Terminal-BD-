@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { MapPin, Search, ChevronRight, Bus } from 'lucide-react';
-import { supabase, District, safeQuery } from '@/lib/supabase';
+import { supabase, District, safeQuery, logSupabaseError } from '@/lib/supabase';
 import EmptyState from '@/components/EmptyState';
 import ErrorMessage from '@/components/ErrorMessage';
 
@@ -29,7 +29,7 @@ export default function DistrictsPage() {
         if (dError) throw dError;
         setDistricts(data || []);
       } catch (err) {
-        console.error('Districts load error:', err);
+        logSupabaseError('Districts load error:', err);
         if (!ignore) setError('জেলাসমূহের তথ্য লোড করা যায়নি।');
       } finally {
         if (!ignore) setLoading(false);

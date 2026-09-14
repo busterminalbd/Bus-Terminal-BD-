@@ -14,7 +14,7 @@ import {
   ShieldCheck, 
   Route as RouteIcon 
 } from 'lucide-react';
-import { supabase, BusOperator, Bus as BusType, safeQuery } from '@/lib/supabase';
+import { supabase, BusOperator, Bus as BusType, safeQuery, logSupabaseError } from '@/lib/supabase';
 import BusCard from '@/components/BusCard';
 import ErrorMessage from '@/components/ErrorMessage';
 import EmptyState from '@/components/EmptyState';
@@ -76,7 +76,7 @@ export default function OperatorDetailPage() {
           }
         }
       } catch (err) {
-        console.error('Operator detail fetch error:', err);
+        logSupabaseError('Operator detail fetch error:', err);
         if (!ignore) setError('অপারেটরের তথ্য লোড করা সম্ভব হয়নি।');
       } finally {
         if (!ignore) setLoading(false);
