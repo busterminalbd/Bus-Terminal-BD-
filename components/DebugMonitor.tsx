@@ -26,12 +26,13 @@ export default function DebugMonitor() {
       let requestUrl = "";
       try {
         const input = args[0];
-        requestUrl =
-          typeof input === "string"
-            ? input
-            : input instanceof Request
-              ? input.url
-              : input?.url || "";
+        if (typeof input === "string") {
+          requestUrl = input;
+        } else if (input instanceof Request) {
+          requestUrl = input.url;
+        } else if (input instanceof URL) {
+          requestUrl = input.toString();
+        }
       } catch {}
 
       try {
