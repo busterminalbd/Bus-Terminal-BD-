@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { supabase, Bus, BusOperator, BusRoute, Counter, Fare, District, safeQuery, logSupabaseError, isMissingRelationshipError } from '@/lib/supabase';
 import ErrorMessage from '@/components/ErrorMessage';
+import { trackMetaEvent } from '@/lib/metaPixelEvents';
 import EmptyState from '@/components/EmptyState';
 
 export default function BusDetailPage() {
@@ -145,6 +146,14 @@ export default function BusDetailPage() {
         if (ignore) return;
         if (bError) throw bError;
         setBus(busData);
+
+        if (busData) {
+          trackMetaEvent('ViewContent', {
+            content_name: busData.name,
+            content_type: 'bus',
+            content_ids: [String(busData.id)],
+          });
+        }
 
         if (busData) {
           if (busData.bus_operators) {

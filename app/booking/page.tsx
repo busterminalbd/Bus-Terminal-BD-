@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { supabase, Booking, Bus as BusType, MiniCoach, TourPackage, safeQuery, logSupabaseError } from '@/lib/supabase';
 import ErrorMessage from '@/components/ErrorMessage';
+import { trackMetaEvent } from '@/lib/metaPixelEvents';
 
 function BookingFormContent() {
   const searchParams = useSearchParams();
@@ -99,6 +100,13 @@ function BookingFormContent() {
     };
   }, []);
 
+  useEffect(() => {
+    trackMetaEvent('InitiateCheckout', {
+      content_type: 'booking',
+      booking_type: bookingType,
+    });
+  }, [bookingType]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitError(null);
@@ -138,6 +146,12 @@ function BookingFormContent() {
 
       const { error: insertError } = await supabase.from('bookings').insert([payload]);
       if (insertError) throw insertError;
+
+      trackMetaEvent('Lead', {
+        content_name: 'Bus Terminal BD Booking',
+        content_type: 'booking',
+        booking_type: bookingType,
+      });
 
       setSubmitSuccess(true);
     } catch (err: unknown) {

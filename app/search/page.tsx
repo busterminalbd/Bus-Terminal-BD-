@@ -10,6 +10,7 @@ import OperatorCard from '@/components/OperatorCard';
 import RouteCard from '@/components/RouteCard';
 import TourCard from '@/components/TourCard';
 import EmptyState from '@/components/EmptyState';
+import { trackMetaEvent } from '@/lib/metaPixelEvents';
 
 function SearchContent() {
   // Fetches routes with district names embedded; if the embedded
@@ -65,6 +66,10 @@ function SearchContent() {
 
     try {
       setLoading(true);
+
+      trackMetaEvent('Search', {
+        search_string: term.trim(),
+      });
 
       // Search buses
       const { data: bData } = await safeQuery<BusType[]>((col) => {
@@ -130,6 +135,10 @@ function SearchContent() {
         try {
           const term = initialQuery.trim();
           if (!term) return;
+
+          trackMetaEvent('Search', {
+            search_string: term,
+          });
 
           const { data: bData } = await safeQuery<BusType[]>((col) => {
             let q = supabase
