@@ -88,7 +88,7 @@ export default function BusDetailPage() {
           } else {
             q = q.eq('slug', slugParam);
           }
-          return q.single();
+          return q.maybeSingle();
         });
 
         // If the joined query fails (e.g. the bus_operators relationship
@@ -105,7 +105,7 @@ export default function BusDetailPage() {
             } else {
               q = q.eq('slug', slugParam);
             }
-            return q.single();
+            return q.maybeSingle();
           });
 
           busData = fallback.data;
