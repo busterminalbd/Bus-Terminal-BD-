@@ -3,7 +3,7 @@
 import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Route as RouteIcon, MapPin, Search, ArrowRight, Clock } from 'lucide-react';
-import { supabase, Route, District, safeQuery, logSupabaseError } from '@/lib/supabase';
+import { supabase, Route, District, safeQuery, logSupabaseError, attachDistrictsToRoutes, isMissingRelationshipError } from '@/lib/supabase';
 import RouteCard from '@/components/RouteCard';
 import EmptyState from '@/components/EmptyState';
 import ErrorMessage from '@/components/ErrorMessage';
@@ -60,6 +60,30 @@ function RoutesContent() {
         });
 
         if (ignore) return;
+
+        // If the embedded districts!routes_*_fkey join can't be resolved (e.g. the live
+        // schema's actual foreign-key constraint name differs from what the query
+        // assumed), retry without the embed and attach district names separately —
+        // never depends on the assumed relationship name being correct.
+        if (rError && isMissingRelationshipError(rError)) {
+          logSupabaseError('Routes load error (district join failed, retrying without join):', rError);
+
+          const fallback = await safeQuery<Route[]>((col) => {
+            let q = supabase
+              .from('routes')
+              .select('id, from_district_id, to_district_id, distance_km, estimated_duration, description');
+            if (col) q = q.eq(col, true);
+            if (fromFilter) q = q.eq('from_district_id', fromFilter);
+            if (toFilter) q = q.eq('to_district_id', toFilter);
+            return q;
+          });
+
+          if (fallback.error) throw fallback.error;
+          const withDistricts = await attachDistrictsToRoutes((fallback.data as Route[]) || []);
+          if (!ignore) setRoutes(withDistricts as unknown as Route[]);
+          return;
+        }
+
         if (rError) throw rError;
 
         setRoutes((routeData as unknown as Route[]) || []);

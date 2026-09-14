@@ -21,7 +21,7 @@ import {
   CheckCircle2,
   Sparkles
 } from 'lucide-react';
-import { supabase, isSupabaseConfigured, District, Bus as BusType, BusOperator, Route, TourPackage, MiniCoach, safeQuery, logSupabaseError } from '@/lib/supabase';
+import { supabase, isSupabaseConfigured, District, Bus as BusType, BusOperator, Route, TourPackage, MiniCoach, safeQuery, logSupabaseError, attachDistrictsToRoutes, isMissingRelationshipError } from '@/lib/supabase';
 import ConfigAlert from '@/components/ConfigAlert';
 import BusCard from '@/components/BusCard';
 import OperatorCard from '@/components/OperatorCard';
@@ -61,7 +61,7 @@ export default function HomePage() {
         if (!ignore && districtsData) setDistricts(districtsData);
 
         // Fetch active routes with district names
-        const { data: routesData } = await safeQuery<Route[]>((col) => {
+        const { data: routesData, error: routesError } = await safeQuery<Route[]>((col) => {
           let q = supabase
             .from('routes')
             .select(`
@@ -78,7 +78,20 @@ export default function HomePage() {
           return q.limit(6);
         });
 
-        if (!ignore && routesData) {
+        if (routesError && isMissingRelationshipError(routesError)) {
+          logSupabaseError('Home routes load error (district join failed, retrying without join):', routesError);
+          const fallback = await safeQuery<Route[]>((col) => {
+            let q = supabase
+              .from('routes')
+              .select('id, from_district_id, to_district_id, distance_km, estimated_duration, description');
+            if (col) q = q.eq(col, true);
+            return q.limit(6);
+          });
+          if (!ignore && fallback.data) {
+            const withDistricts = await attachDistrictsToRoutes(fallback.data as Route[]);
+            setPopularRoutes(withDistricts as unknown as Route[]);
+          }
+        } else if (!ignore && routesData) {
           setPopularRoutes(routesData as unknown as Route[]);
         }
 

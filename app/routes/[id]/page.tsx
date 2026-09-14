@@ -14,7 +14,7 @@ import {
   Calendar,
   Phone
 } from 'lucide-react';
-import { supabase, Route, BusRoute, Fare, safeQuery, logSupabaseError } from '@/lib/supabase';
+import { supabase, Route, BusRoute, Fare, safeQuery, logSupabaseError, attachDistrictsToRoutes, isMissingRelationshipError } from '@/lib/supabase';
 import ErrorMessage from '@/components/ErrorMessage';
 import EmptyState from '@/components/EmptyState';
 
@@ -49,8 +49,23 @@ export default function RouteDetailPage() {
           .single();
 
         if (ignore) return;
-        if (rError) throw rError;
-        setRoute(routeData as unknown as Route);
+
+        if (rError && isMissingRelationshipError(rError)) {
+          logSupabaseError('Route detail error (district join failed, retrying without join):', rError);
+
+          const { data: plainRoute, error: plainError } = await supabase
+            .from('routes')
+            .select('*')
+            .eq('id', routeId)
+            .single();
+
+          if (plainError) throw plainError;
+          const [withDistrict] = await attachDistrictsToRoutes([plainRoute as Route]);
+          if (!ignore) setRoute(withDistrict as unknown as Route);
+        } else {
+          if (rError) throw rError;
+          setRoute(routeData as unknown as Route);
+        }
 
         // Fetch bus schedules running on this route
         const { data: schedData } = await safeQuery<BusRoute[]>((col) => {

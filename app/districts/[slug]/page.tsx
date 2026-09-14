@@ -13,7 +13,7 @@ import {
   ChevronRight,
   Navigation
 } from 'lucide-react';
-import { supabase, District, Route, Counter, safeQuery, logSupabaseError } from '@/lib/supabase';
+import { supabase, District, Route, Counter, safeQuery, logSupabaseError, attachDistrictsToRoutes, isMissingRelationshipError } from '@/lib/supabase';
 import RouteCard from '@/components/RouteCard';
 import ErrorMessage from '@/components/ErrorMessage';
 import EmptyState from '@/components/EmptyState';
@@ -57,7 +57,7 @@ export default function DistrictDetailPage() {
 
         if (dData) {
           // Fetch routes originating or ending in this district
-          const { data: rData } = await safeQuery<Route[]>((col) => {
+          const { data: rData, error: rError } = await safeQuery<Route[]>((col) => {
             let q = supabase
               .from('routes')
               .select(`
@@ -70,7 +70,25 @@ export default function DistrictDetailPage() {
             return q;
           });
 
-          if (!ignore && rData) setRoutes(rData as unknown as Route[]);
+          if (rError && isMissingRelationshipError(rError)) {
+            logSupabaseError('District routes load error (district join failed, retrying without join):', rError);
+
+            const fallback = await safeQuery<Route[]>((col) => {
+              let q = supabase
+                .from('routes')
+                .select('*')
+                .or(`from_district_id.eq.${dData.id},to_district_id.eq.${dData.id}`);
+              if (col) q = q.eq(col, true);
+              return q;
+            });
+
+            if (!ignore && fallback.data) {
+              const withDistricts = await attachDistrictsToRoutes(fallback.data as Route[]);
+              setRoutes(withDistricts as unknown as Route[]);
+            }
+          } else if (!ignore && rData) {
+            setRoutes(rData as unknown as Route[]);
+          }
 
           // Fetch counters in this district
           const { data: cData } = await safeQuery<Counter[]>((col) => {

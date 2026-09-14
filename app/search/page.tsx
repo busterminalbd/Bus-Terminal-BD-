@@ -4,7 +4,7 @@ import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Search, Bus, Building2, Route as RouteIcon, MapPin, Compass } from 'lucide-react';
-import { supabase, Bus as BusType, BusOperator, Route as RouteType, District, TourPackage, safeQuery, logSupabaseError } from '@/lib/supabase';
+import { supabase, Bus as BusType, BusOperator, Route as RouteType, District, TourPackage, safeQuery, logSupabaseError, attachDistrictsToRoutes, isMissingRelationshipError } from '@/lib/supabase';
 import BusCard from '@/components/BusCard';
 import OperatorCard from '@/components/OperatorCard';
 import RouteCard from '@/components/RouteCard';
@@ -12,6 +12,37 @@ import TourCard from '@/components/TourCard';
 import EmptyState from '@/components/EmptyState';
 
 function SearchContent() {
+  // Fetches routes with district names embedded; if the embedded
+  // districts!routes_*_fkey join can't be resolved by PostgREST (e.g. the live schema's
+  // actual foreign-key constraint name differs from what the query assumed), falls back
+  // to a plain routes query + a separate districts query merged client-side.
+  async function fetchRoutesForSearch(): Promise<RouteType[]> {
+    const { data: rData, error: rError } = await safeQuery<RouteType[]>((col) => {
+      let q = supabase
+        .from('routes')
+        .select(`
+          *,
+          from_district:districts!routes_from_district_id_fkey(id, name),
+          to_district:districts!routes_to_district_id_fkey(id, name)
+        `);
+      if (col) q = q.eq(col, true);
+      return q.limit(12);
+    });
+
+    if (rError && isMissingRelationshipError(rError)) {
+      logSupabaseError('Search routes load error (district join failed, retrying without join):', rError);
+      const fallback = await safeQuery<RouteType[]>((col) => {
+        let q = supabase.from('routes').select('*');
+        if (col) q = q.eq(col, true);
+        return q.limit(12);
+      });
+      if (!fallback.data) return [];
+      return (await attachDistrictsToRoutes(fallback.data as RouteType[])) as unknown as RouteType[];
+    }
+
+    return (rData as unknown as RouteType[]) || [];
+  }
+
   const searchParams = useSearchParams();
   const initialQuery = searchParams.get('q') || '';
 
@@ -60,21 +91,11 @@ function SearchContent() {
       if (opData) setOperators(opData as BusOperator[]);
 
       // Search routes (by description or district)
-      const { data: rData } = await safeQuery<RouteType[]>((col) => {
-        let q = supabase
-          .from('routes')
-          .select(`
-            *,
-            from_district:districts!routes_from_district_id_fkey(id, name),
-            to_district:districts!routes_to_district_id_fkey(id, name)
-          `);
-        if (col) q = q.eq(col, true);
-        return q.limit(12);
-      });
+      const rData = await fetchRoutesForSearch();
 
-      if (rData) {
+      {
         // filter client-side for district names matching term
-        const matchedRoutes = (rData as unknown as RouteType[]).filter(
+        const matchedRoutes = rData.filter(
           (r) =>
             r.from_district?.name?.toLowerCase().includes(term.toLowerCase()) ||
             r.to_district?.name?.toLowerCase().includes(term.toLowerCase()) ||
@@ -134,21 +155,11 @@ function SearchContent() {
           if (ignore) return;
           if (opData) setOperators(opData as BusOperator[]);
 
-          const { data: rData } = await safeQuery<RouteType[]>((col) => {
-            let q = supabase
-              .from('routes')
-              .select(`
-                *,
-                from_district:districts!routes_from_district_id_fkey(id, name),
-                to_district:districts!routes_to_district_id_fkey(id, name)
-              `);
-            if (col) q = q.eq(col, true);
-            return q.limit(12);
-          });
+          const rData = await fetchRoutesForSearch();
 
           if (ignore) return;
-          if (rData) {
-            const matchedRoutes = (rData as unknown as RouteType[]).filter(
+          {
+            const matchedRoutes = rData.filter(
               (r) =>
                 r.from_district?.name?.toLowerCase().includes(term.toLowerCase()) ||
                 r.to_district?.name?.toLowerCase().includes(term.toLowerCase()) ||

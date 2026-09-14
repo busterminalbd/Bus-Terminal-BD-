@@ -216,6 +216,52 @@ export async function safeQuery<T>(
 }
 
 /**
+ * Attaches from_district/to_district (id, name) onto already-fetched routes via a
+ * separate `districts` query. This is the resilient fallback used when the embedded
+ * `districts!routes_from_district_id_fkey` / `..._to_district_id_fkey` join can't be
+ * resolved by PostgREST (e.g. the live schema's actual foreign-key constraint name
+ * doesn't match what the query assumed) — it never depends on any assumed relationship
+ * name, only on the `from_district_id`/`to_district_id` columns already present on Route.
+ */
+export async function attachDistrictsToRoutes<
+  T extends { from_district_id?: string | null; to_district_id?: string | null }
+>(routes: T[]): Promise<(T & { from_district?: District | null; to_district?: District | null })[]> {
+  const ids = Array.from(
+    new Set(
+      routes
+        .flatMap((r) => [r.from_district_id, r.to_district_id])
+        .filter((id): id is string => Boolean(id))
+    )
+  );
+
+  if (ids.length === 0) {
+    return routes.map((r) => ({ ...r, from_district: null, to_district: null }));
+  }
+
+  const { data } = await supabase.from('districts').select('id, name').in('id', ids);
+  const map = new Map<string, District>((((data as District[]) || [])).map((d) => [d.id, d]));
+
+  return routes.map((r) => ({
+    ...r,
+    from_district: r.from_district_id ? map.get(r.from_district_id) ?? null : null,
+    to_district: r.to_district_id ? map.get(r.to_district_id) ?? null : null,
+  }));
+}
+
+/**
+ * True if a PostgREST error indicates an embedded-relationship hint (e.g. an assumed
+ * foreign-key constraint name like `routes_from_district_id_fkey`) couldn't be resolved,
+ * so the caller should fall back to a separate query instead of the embed.
+ */
+export function isMissingRelationshipError(error: any): boolean {
+  if (!error) return false;
+  // PGRST200 is PostgREST's code for "Could not find a relationship ... in the schema cache".
+  if (error.code === 'PGRST200') return true;
+  const msg = String(error.message || '').toLowerCase();
+  return msg.includes('relationship') || msg.includes('foreign key') || msg.includes('schema cache');
+}
+
+/**
  * Logs a Supabase/PostgREST error's actual fields (message, details, hint, code)
  * instead of dumping the raw error object, which can print as "{}" in the
  * console (this happens for plain Error/network-failure objects since their

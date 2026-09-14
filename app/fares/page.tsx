@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { DollarSign, Search, Filter, Bus as BusIcon, ArrowRight, Calendar } from 'lucide-react';
-import { supabase, Fare, District, Bus, safeQuery, logSupabaseError } from '@/lib/supabase';
+import { supabase, Fare, District, Bus, safeQuery, logSupabaseError, isMissingRelationshipError } from '@/lib/supabase';
 import EmptyState from '@/components/EmptyState';
 import ErrorMessage from '@/components/ErrorMessage';
 
@@ -67,6 +67,67 @@ export default function FaresPage() {
         });
 
         if (ignore) return;
+
+        // If the nested routes -> districts!routes_*_fkey join can't be resolved (e.g.
+        // the live schema's actual foreign-key constraint name differs from what the
+        // query assumed), retry with a simpler embed (no district names) and attach
+        // district names to each fare's route separately.
+        if (fError && isMissingRelationshipError(fError)) {
+          logSupabaseError('Fares load error (district join failed, retrying without join):', fError);
+
+          const fallback = await safeQuery<Fare[]>((col) => {
+            let q = supabase
+              .from('fares')
+              .select(`
+                *,
+                buses(
+                  id,
+                  name,
+                  slug,
+                  is_ac,
+                  bus_operators(id, name)
+                ),
+                routes(
+                  id,
+                  from_district_id,
+                  to_district_id
+                )
+              `);
+            if (col) q = q.eq(col, true);
+            return q.order('fare');
+          });
+
+          if (fallback.error) throw fallback.error;
+
+          const plainFares = (fallback.data as Fare[]) || [];
+          const districtIds = Array.from(
+            new Set(
+              plainFares
+                .flatMap((f) => [f.routes?.from_district_id, f.routes?.to_district_id])
+                .filter((id): id is string => Boolean(id))
+            )
+          );
+          let districtsMap = new Map<string, District>();
+          if (districtIds.length > 0) {
+            const { data: districtRows } = await supabase.from('districts').select('id, name').in('id', districtIds);
+            districtsMap = new Map((districtRows || []).map((d: District) => [d.id, d]));
+          }
+
+          const faresWithDistricts = plainFares.map((f) => ({
+            ...f,
+            routes: f.routes
+              ? {
+                  ...f.routes,
+                  from_district: f.routes.from_district_id ? districtsMap.get(f.routes.from_district_id) ?? null : null,
+                  to_district: f.routes.to_district_id ? districtsMap.get(f.routes.to_district_id) ?? null : null,
+                }
+              : null,
+          }));
+
+          if (!ignore) setFares(faresWithDistricts as unknown as Fare[]);
+          return;
+        }
+
         if (fError) throw fError;
         setFares((fareData as unknown as Fare[]) || []);
       } catch (err) {

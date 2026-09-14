@@ -17,11 +17,41 @@ import {
   ChevronRight,
   ShieldCheck
 } from 'lucide-react';
-import { supabase, Bus, BusOperator, BusRoute, Counter, Fare, safeQuery, logSupabaseError } from '@/lib/supabase';
+import { supabase, Bus, BusOperator, BusRoute, Counter, Fare, District, safeQuery, logSupabaseError, isMissingRelationshipError } from '@/lib/supabase';
 import ErrorMessage from '@/components/ErrorMessage';
 import EmptyState from '@/components/EmptyState';
 
 export default function BusDetailPage() {
+  // Attaches from_district/to_district onto each item's nested `routes` object via a
+  // separate districts query — the fallback shape for schedules/fares when the embedded
+  // routes -> districts!routes_*_fkey join can't be resolved by PostgREST.
+  async function attachDistrictsToNestedRoutes<T extends { routes?: { from_district_id?: string | null; to_district_id?: string | null } | null }>(
+    items: T[]
+  ): Promise<T[]> {
+    const ids = Array.from(
+      new Set(
+        items
+          .flatMap((i) => [i.routes?.from_district_id, i.routes?.to_district_id])
+          .filter((id): id is string => Boolean(id))
+      )
+    );
+    if (ids.length === 0) return items;
+
+    const { data } = await supabase.from('districts').select('id, name').in('id', ids);
+    const map = new Map<string, District>((((data as District[]) || [])).map((d) => [d.id, d]));
+
+    return items.map((item) => ({
+      ...item,
+      routes: item.routes
+        ? {
+            ...item.routes,
+            from_district: item.routes.from_district_id ? map.get(item.routes.from_district_id) ?? null : null,
+            to_district: item.routes.to_district_id ? map.get(item.routes.to_district_id) ?? null : null,
+          }
+        : item.routes,
+    }));
+  }
+
   const params = useParams();
   const slugParam = params?.slug as string;
 
@@ -101,7 +131,7 @@ export default function BusDetailPage() {
           }
 
           // Fetch schedules (bus_routes)
-          const { data: scheduleData } = await safeQuery<BusRoute[]>((col) => {
+          const { data: scheduleData, error: scheduleError } = await safeQuery<BusRoute[]>((col) => {
             let q = supabase
               .from('bus_routes')
               .select(`
@@ -117,7 +147,23 @@ export default function BusDetailPage() {
             return q;
           });
 
-          if (!ignore && scheduleData) setSchedules(scheduleData as unknown as BusRoute[]);
+          if (scheduleError && isMissingRelationshipError(scheduleError)) {
+            logSupabaseError('Bus schedules load error (district join failed, retrying without join):', scheduleError);
+            const fallback = await safeQuery<BusRoute[]>((col) => {
+              let q = supabase
+                .from('bus_routes')
+                .select('*, routes(id, from_district_id, to_district_id)')
+                .eq('bus_id', busData.id);
+              if (col) q = q.eq(col, true);
+              return q;
+            });
+            if (!ignore && fallback.data) {
+              const withDistricts = await attachDistrictsToNestedRoutes(fallback.data as BusRoute[]);
+              setSchedules(withDistricts as unknown as BusRoute[]);
+            }
+          } else if (!ignore && scheduleData) {
+            setSchedules(scheduleData as unknown as BusRoute[]);
+          }
 
           // Fetch counters for this bus
           const { data: counterData } = await safeQuery<Counter[]>((col) => {
@@ -135,7 +181,7 @@ export default function BusDetailPage() {
           if (!ignore && counterData) setCounters(counterData as unknown as Counter[]);
 
           // Fetch fares for this bus
-          const { data: fareData } = await safeQuery<Fare[]>((col) => {
+          const { data: fareData, error: fareError } = await safeQuery<Fare[]>((col) => {
             let q = supabase
               .from('fares')
               .select(`
@@ -151,7 +197,23 @@ export default function BusDetailPage() {
             return q;
           });
 
-          if (!ignore && fareData) setFares(fareData as unknown as Fare[]);
+          if (fareError && isMissingRelationshipError(fareError)) {
+            logSupabaseError('Bus fares load error (district join failed, retrying without join):', fareError);
+            const fallback = await safeQuery<Fare[]>((col) => {
+              let q = supabase
+                .from('fares')
+                .select('*, routes(id, from_district_id, to_district_id)')
+                .eq('bus_id', busData.id);
+              if (col) q = q.eq(col, true);
+              return q;
+            });
+            if (!ignore && fallback.data) {
+              const withDistricts = await attachDistrictsToNestedRoutes(fallback.data as Fare[]);
+              setFares(withDistricts as unknown as Fare[]);
+            }
+          } else if (!ignore && fareData) {
+            setFares(fareData as unknown as Fare[]);
+          }
         }
       } catch (err) {
         logSupabaseError('Bus details load error:', err);
