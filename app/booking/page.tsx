@@ -122,14 +122,14 @@ function BookingFormContent() {
 
       const payload = {
         booking_type: bookingType,
-        user_name: userName.trim(),
-        user_phone: userPhone.trim(),
-        user_email: userEmail.trim() || null,
-        journey_date: journeyDate,
-        seat_count: Number(seatCount) || 1,
+        customer_name: userName.trim(),
+        phone: userPhone.trim(),
+        email: userEmail.trim() || null,
+        travel_date: journeyDate,
+        passengers: Number(seatCount) || 1,
         pickup_location: pickupLocation.trim() || null,
-        dropoff_location: dropoffLocation.trim() || null,
-        notes: notes.trim() || null,
+        destination: dropoffLocation.trim() || null,
+        special_request: notes.trim() || null,
         bus_id: bookingType === 'bus' && busId ? busId : null,
         mini_coach_id: bookingType === 'mini_coach' && miniCoachId ? miniCoachId : null,
         tour_package_id: bookingType === 'tour_package' && tourPackageId ? tourPackageId : null,
@@ -157,7 +157,7 @@ function BookingFormContent() {
       const { data, error } = await supabase
         .from('bookings')
         .select('*')
-        .ilike('user_phone', `%${searchPhone.trim()}%`)
+        .ilike('phone', `%${searchPhone.trim()}%`)
         .order('created_at', { ascending: false });
 
       if (error) throw error;
@@ -258,7 +258,7 @@ function BookingFormContent() {
                   {myBookings.map((b) => (
                     <div key={b.id} className="p-4 rounded-2xl border border-slate-200 bg-slate-50/50 space-y-2 text-xs">
                       <div className="flex items-center justify-between">
-                        <span className="font-bold text-slate-900 text-sm">{b.user_name}</span>
+                        <span className="font-bold text-slate-900 text-sm">{b.customer_name}</span>
                         {getStatusBadge(b.status)}
                       </div>
                       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-slate-600 pt-1">
@@ -268,20 +268,20 @@ function BookingFormContent() {
                         </div>
                         <div>
                           <span className="text-[10px] text-slate-400 block">যাত্রার তারিখ</span>
-                          <span className="font-semibold">{b.journey_date}</span>
+                          <span className="font-semibold">{b.travel_date}</span>
                         </div>
                         <div>
                           <span className="text-[10px] text-slate-400 block">আসন সংখ্যা</span>
-                          <span className="font-semibold">{b.seat_count} টি</span>
+                          <span className="font-semibold">{b.passengers} টি</span>
                         </div>
                         <div>
                           <span className="text-[10px] text-slate-400 block">রুট / গন্তব্য</span>
-                          <span className="font-semibold">{b.dropoff_location || '-'}</span>
+                          <span className="font-semibold">{b.destination || '-'}</span>
                         </div>
                       </div>
-                      {b.notes && (
+                      {b.special_request && (
                         <p className="text-[11px] text-slate-500 pt-1 border-t border-slate-200/50">
-                          মন্তব্য: {b.notes}
+                          মন্তব্য: {b.special_request}
                         </p>
                       )}
                     </div>

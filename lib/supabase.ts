@@ -147,17 +147,21 @@ export interface TourPackage {
 export interface Booking {
   id?: string;
   booking_type: string;
-  user_name: string;
-  user_phone: string;
-  user_email?: string | null;
-  journey_date?: string | null;
-  seat_count?: number | null;
+  customer_name: string;
+  phone: string;
+  email?: string | null;
   pickup_location?: string | null;
-  dropoff_location?: string | null;
-  notes?: string | null;
+  destination?: string | null;
+  travel_date?: string | null;
+  return_date?: string | null;
+  passengers?: number | null;
   bus_id?: string | null;
   mini_coach_id?: string | null;
   tour_package_id?: string | null;
+  vehicle_type?: string | null;
+  trip_days?: number | null;
+  estimated_price?: number | null;
+  special_request?: string | null;
   status: string;
   created_at?: string;
 }
@@ -198,21 +202,33 @@ export const supabase = isSupabaseConfigured
 
 /**
  * Executes a query with resilient active/is_active fallback.
- * Tries 'is_active' first (default in PostgreSQL), then 'active', then no filter.
+ *
+ * The current Bus Terminal BD schema uses `active` on public data tables,
+ * while older/generated builds may use `is_active`. Try the known current
+ * column first, then fall back to the alternate column when the query reports
+ * a missing/invalid column. We never remove the active filter as a fallback.
  */
 export async function safeQuery<T>(
-  queryBuilderFn: (col: 'is_active' | 'active' | null) => PromiseLike<{ data: any; error: any }> | Promise<{ data: any; error: any }>
-): Promise<{ data: T | null; error: { code?: string; message?: string } | null }> {
-  const res1 = await queryBuilderFn('is_active');
-  if (!res1.error || res1.error.code !== '42703') {
-    return res1 as { data: T | null; error: { code?: string; message?: string } | null };
+  queryBuilderFn: (col: 'active' | 'is_active') => PromiseLike<{ data: any; error: any }> | Promise<{ data: any; error: any }>
+): Promise<{ data: T | null; error: { code?: string; message?: string; details?: string | null; hint?: string | null } | null }> {
+  const res1 = await queryBuilderFn('active');
+  if (!res1.error) {
+    return res1 as { data: T | null; error: null };
   }
-  const res2 = await queryBuilderFn('active');
-  if (!res2.error || res2.error.code !== '42703') {
-    return res2 as { data: T | null; error: { code?: string; message?: string } | null };
+
+  const message = String(res1.error.message || '').toLowerCase();
+  const missingColumn =
+    res1.error.code === '42703' ||
+    res1.error.code === 'PGRST204' ||
+    message.includes('column') && (message.includes('active') || message.includes('is_active')) ||
+    message.includes('schema cache');
+
+  if (!missingColumn) {
+    return res1 as { data: T | null; error: { code?: string; message?: string; details?: string | null; hint?: string | null } };
   }
-  const res3 = await queryBuilderFn(null);
-  return res3 as { data: T | null; error: { code?: string; message?: string } | null };
+
+  const res2 = await queryBuilderFn('is_active');
+  return res2 as { data: T | null; error: { code?: string; message?: string; details?: string | null; hint?: string | null } | null };
 }
 
 /**
