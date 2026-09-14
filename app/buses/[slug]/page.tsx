@@ -73,7 +73,11 @@ export default function BusDetailPage() {
         setError(null);
 
         const decodedParam = decodeURIComponent(slugParam);
+        // Live Supabase buses.id is numeric (e.g. 2), so /buses/2 is an ID,
+        // not a slug. UUID IDs are supported too.
+        const isNumericId = /^\d+$/.test(decodedParam);
         const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(decodedParam);
+        const isId = isNumericId || isUUID;
 
         // Prefer the immutable bus ID for details URLs. Slugs can be changed
         // by an admin edit, so the details page must not depend on a mutable slug.
@@ -85,7 +89,7 @@ export default function BusDetailPage() {
               bus_operators(*)
             `);
           if (col) q = q.eq(col, true);
-          if (isUUID) {
+          if (isId) {
             q = q.eq('id', decodedParam);
           } else {
             q = q.eq('slug', decodedParam);
@@ -96,7 +100,7 @@ export default function BusDetailPage() {
         // If the URL slug no longer matches after an admin edit, try the bus name
         // as a compatibility fallback. This keeps an existing details URL usable
         // when the record's slug was changed accidentally.
-        if (!bError && !busData && !isUUID) {
+        if (!bError && !busData && !isId) {
           const fallbackByName = await safeQuery<Bus>((col) => {
             let q = supabase
               .from('buses')

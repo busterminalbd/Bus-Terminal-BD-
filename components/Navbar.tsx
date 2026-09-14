@@ -39,18 +39,18 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-emerald-100 shadow-xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 sm:h-20">
+        <div className="flex items-center justify-between h-14 sm:h-20">
           
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-emerald-600 flex items-center justify-center text-white shadow-md shadow-emerald-600/20 group-hover:scale-105 transition-transform duration-200">
-              <Bus className="w-6 h-6" />
+          <Link href="/" className="flex items-center gap-2 sm:gap-3 group">
+            <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-emerald-600 flex items-center justify-center text-white shadow-md shadow-emerald-600/20 group-hover:scale-105 transition-transform duration-200">
+              <Bus className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
             <div>
-              <span className="text-xl sm:text-2xl font-black tracking-tight text-slate-900 block leading-none">
+              <span className="text-base sm:text-2xl font-black tracking-tight text-slate-900 block leading-none">
                 BUS TERMINAL <span className="text-emerald-600">BD</span>
               </span>
-              <span className="text-[11px] sm:text-xs text-slate-500 font-medium tracking-wide">
+              <span className="text-[9px] sm:text-xs text-slate-500 font-medium tracking-wide">
                 বাংলাদেশের বাস ও ভ্রমণ তথ্য
               </span>
             </div>
@@ -81,14 +81,14 @@ export default function Navbar() {
             <Link
               href="/search"
               aria-label="অনুসন্ধান"
-              className="p-2 sm:p-2.5 rounded-lg text-slate-600 hover:text-emerald-600 hover:bg-slate-100 transition-colors"
+              className="p-1.5 sm:p-2.5 rounded-lg text-slate-600 hover:text-emerald-600 hover:bg-slate-100 transition-colors"
             >
               <Search className="w-5 h-5" />
             </Link>
 
             <Link
               href="/booking"
-              className="inline-flex items-center justify-center gap-1.5 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 shadow-md shadow-emerald-600/25 transition-all hover:shadow-lg active:scale-95"
+              className="inline-flex items-center justify-center gap-1 px-2.5 sm:gap-1.5 sm:px-5 py-1.5 sm:py-2.5 rounded-xl text-[11px] sm:text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 shadow-md shadow-emerald-600/25 transition-all hover:shadow-lg active:scale-95"
             >
               <Calendar className="w-4 h-4 hidden sm:inline" />
               <span>বুকিং করুন</span>
@@ -101,7 +101,7 @@ export default function Navbar() {
               aria-label="মেনু খুলুন"
               className="xl:hidden p-2 rounded-lg text-slate-700 hover:bg-slate-100"
             >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {mobileMenuOpen ? <X className="w-5 h-5 sm:w-6 sm:h-6" /> : <Menu className="w-5 h-5 sm:w-6 sm:h-6" />}
             </button>
           </div>
         </div>
