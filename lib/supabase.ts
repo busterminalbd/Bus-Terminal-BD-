@@ -211,7 +211,9 @@ export const supabase = isSupabaseConfigured
 export async function safeQuery<T>(
   queryBuilderFn: (col: 'active' | 'is_active') => PromiseLike<{ data: any; error: any }> | Promise<{ data: any; error: any }>
 ): Promise<{ data: T | null; error: { code?: string; message?: string; details?: string | null; hint?: string | null } | null }> {
-  const res1 = await queryBuilderFn('active');
+  // Current Supabase schema uses is_active on public data tables.
+  // Try the actual current column first to avoid unnecessary 400 requests.
+  const res1 = await queryBuilderFn('is_active');
   if (!res1.error) {
     return res1 as { data: T | null; error: null };
   }
@@ -227,7 +229,7 @@ export async function safeQuery<T>(
     return res1 as { data: T | null; error: { code?: string; message?: string; details?: string | null; hint?: string | null } };
   }
 
-  const res2 = await queryBuilderFn('is_active');
+  const res2 = await queryBuilderFn('active');
   return res2 as { data: T | null; error: { code?: string; message?: string; details?: string | null; hint?: string | null } | null };
 }
 
