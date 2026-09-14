@@ -42,18 +42,15 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16 sm:h-20">
           
           {/* Logo */}
-          <Link
-            href="/"
-            className="flex min-w-0 items-center gap-2 sm:gap-3 group"
-          >
-            <div className="shrink-0 w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-emerald-600 flex items-center justify-center text-white shadow-md shadow-emerald-600/20 group-hover:scale-105 transition-transform duration-200">
-              <Bus className="w-5 h-5 sm:w-6 sm:h-6" />
+          <Link href="/" className="flex items-center gap-3 group">
+            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-emerald-600 flex items-center justify-center text-white shadow-md shadow-emerald-600/20 group-hover:scale-105 transition-transform duration-200">
+              <Bus className="w-6 h-6" />
             </div>
-            <div className="min-w-0">
-              <span className="text-[17px] sm:text-2xl font-black tracking-tight text-slate-900 block leading-none whitespace-nowrap">
+            <div>
+              <span className="text-xl sm:text-2xl font-black tracking-tight text-slate-900 block leading-none">
                 BUS TERMINAL <span className="text-emerald-600">BD</span>
               </span>
-              <span className="hidden sm:block text-[11px] sm:text-xs text-slate-500 font-medium tracking-wide mt-1">
+              <span className="text-[11px] sm:text-xs text-slate-500 font-medium tracking-wide">
                 বাংলাদেশের বাস ও ভ্রমণ তথ্য
               </span>
             </div>
@@ -80,7 +77,7 @@ export default function Navbar() {
           </nav>
 
           {/* Action CTAs */}
-          <div className="shrink-0 flex items-center gap-1.5 sm:gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             <Link
               href="/search"
               aria-label="অনুসন্ধান"
@@ -91,7 +88,7 @@ export default function Navbar() {
 
             <Link
               href="/booking"
-              className="inline-flex items-center justify-center gap-1.5 px-2.5 sm:px-5 py-2 sm:py-2.5 rounded-xl text-[11px] sm:text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 shadow-md shadow-emerald-600/25 transition-all hover:shadow-lg active:scale-95 whitespace-nowrap"
+              className="inline-flex items-center justify-center gap-1.5 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 shadow-md shadow-emerald-600/25 transition-all hover:shadow-lg active:scale-95"
             >
               <Calendar className="w-4 h-4 hidden sm:inline" />
               <span>বুকিং করুন</span>

@@ -86,7 +86,7 @@ export default function BusCard({ bus }: BusCardProps) {
         {/* Action Button */}
         <div className="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
           <Link
-            href={`/buses/${bus.slug || bus.id}`}
+            href={`/buses/${bus.slug ? encodeURIComponent(bus.slug) : bus.id}`}
             className="text-xs font-bold text-emerald-700 hover:text-emerald-800 flex items-center gap-1"
           >
             <span>বিস্তারিত তথ্য</span>
