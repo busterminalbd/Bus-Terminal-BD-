@@ -72,9 +72,11 @@ export default function BusDetailPage() {
         setLoading(true);
         setError(null);
 
-        const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(slugParam);
+        const decodedParam = decodeURIComponent(slugParam);
+        const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(decodedParam);
 
-        // Fetch bus by slug or ID (joined with its operator)
+        // Prefer the immutable bus ID for details URLs. Slugs can be changed
+        // by an admin edit, so the details page must not depend on a mutable slug.
         let { data: busData, error: bError } = await safeQuery<Bus>((col) => {
           let q = supabase
             .from('buses')
@@ -84,12 +86,27 @@ export default function BusDetailPage() {
             `);
           if (col) q = q.eq(col, true);
           if (isUUID) {
-            q = q.eq('id', slugParam);
+            q = q.eq('id', decodedParam);
           } else {
-            q = q.eq('slug', slugParam);
+            q = q.eq('slug', decodedParam);
           }
           return q.maybeSingle();
         });
+
+        // If the URL slug no longer matches after an admin edit, try the bus name
+        // as a compatibility fallback. This keeps an existing details URL usable
+        // when the record's slug was changed accidentally.
+        if (!bError && !busData && !isUUID) {
+          const fallbackByName = await safeQuery<Bus>((col) => {
+            let q = supabase
+              .from('buses')
+              .select(`*, bus_operators(*)`)
+              .eq('name', decodeURIComponent(slugParam));
+            if (col) q = q.eq(col, true);
+            return q.maybeSingle();
+          });
+          if (fallbackByName.data) busData = fallbackByName.data;
+        }
 
         // If the joined query fails (e.g. the bus_operators relationship
         // isn't recognized by PostgREST's schema cache), fall back to a
@@ -101,9 +118,9 @@ export default function BusDetailPage() {
             let q = supabase.from('buses').select('*');
             if (col) q = q.eq(col, true);
             if (isUUID) {
-              q = q.eq('id', slugParam);
+              q = q.eq('id', decodedParam);
             } else {
-              q = q.eq('slug', slugParam);
+              q = q.eq('slug', decodeURIComponent(slugParam));
             }
             return q.maybeSingle();
           });
