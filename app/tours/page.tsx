@@ -23,7 +23,7 @@ export default function ToursPage() {
         const { data, error: sbError } = await safeQuery<TourPackage[]>((col) => {
           let q = supabase.from('tour_packages').select('*');
           if (col) q = q.eq(col, true);
-          return q.order('price');
+          return q.order('price_per_person');
         });
 
         if (ignore) return;
