@@ -22,7 +22,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="bn">
-      <body className="min-h-screen flex flex-col bg-slate-50 text-slate-900 antialiased font-sans" suppressHydrationWarning>
+      <body className="btbd-site min-h-screen flex flex-col bg-slate-50 text-slate-900 antialiased font-sans" suppressHydrationWarning>
         <MetaPixel />
         <Navbar />
         <main className="flex-1">

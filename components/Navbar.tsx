@@ -75,7 +75,7 @@ export default function Navbar() {
     pathname === href || (href !== '/' && pathname.startsWith(href));
 
   return (
-    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-100 shadow-xs">
+    <header className="btbd-navbar sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-100 shadow-xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-14 sm:h-20">
 
@@ -95,7 +95,7 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Navigation — kept short on purpose; everything else is under "আরও" */}
-          <nav className="hidden lg:flex items-center space-x-1">
+          <nav className="btbd-desktop-nav hidden lg:flex items-center space-x-1">
             {primaryNavItems.map((item) => {
               const isActive = isItemActive(item.href);
               return (
@@ -129,7 +129,7 @@ export default function Navbar() {
               </button>
 
               {moreMenuOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl border border-slate-200 shadow-xl shadow-black/10 py-2 z-50">
+                <div className="btbd-more-menu absolute right-0 mt-2 w-56 bg-white rounded-2xl border border-slate-200 shadow-xl shadow-black/10 py-2 z-50">
                   {moreNavItems.map((item) => {
                     const Icon = item.icon;
                     const isActive = isItemActive(item.href);
@@ -185,7 +185,7 @@ export default function Navbar() {
 
       {/* Mobile Drawer Menu — slides in from the right, red header like the app's brand */}
       <div
-        className={`fixed inset-0 z-[60] lg:hidden transition-opacity duration-300 ${
+        className={`btbd-mobile-menu fixed inset-0 z-[60] lg:hidden transition-opacity duration-300 ${
           mobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
         aria-hidden={!mobileMenuOpen}
@@ -200,12 +200,12 @@ export default function Navbar() {
 
         {/* Drawer panel */}
         <div
-          className={`absolute right-0 top-0 h-full w-[82%] max-w-xs bg-white shadow-2xl flex flex-col transition-transform duration-300 ${
+          className={`btbd-mobile-drawer absolute right-0 top-0 h-full w-[86%] max-w-sm bg-white shadow-2xl flex flex-col transition-transform duration-300 ${
             mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
           }`}
         >
           {/* Red header */}
-          <div className="bg-red-600 px-5 py-5 flex items-center justify-between shrink-0">
+          <div className="btbd-mobile-head bg-red-600 px-5 py-5 flex items-center justify-between shrink-0">
             <div className="flex items-center gap-2">
               <div className="w-9 h-9 rounded-lg bg-white/15 flex items-center justify-center text-white">
                 <Bus className="w-5 h-5" />
@@ -225,7 +225,7 @@ export default function Navbar() {
           </div>
 
           {/* Menu items */}
-          <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-1">
+          <nav className="btbd-mobile-nav flex-1 overflow-y-auto px-3 py-4 space-y-1">
             {allNavItemsForMobile.map((item) => {
               const Icon = item.icon;
               const isActive = isItemActive(item.href);
@@ -248,7 +248,7 @@ export default function Navbar() {
           </nav>
 
           {/* Footer CTA */}
-          <div className="p-4 border-t border-slate-100 shrink-0">
+          <div className="btbd-mobile-cta p-4 border-t border-slate-100 shrink-0">
             <Link
               href="/booking"
               onClick={() => setMobileMenuOpen(false)}
