@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { 
@@ -16,25 +16,48 @@ import {
   DollarSign, 
   Compass, 
   Car,
-  ChevronRight
+  ChevronRight,
+  ChevronDown
 } from 'lucide-react';
 
-const navItems = [
+// Primary items: the handful of things people look for most often.
+const primaryNavItems = [
   { name: 'হোম', href: '/', icon: Bus },
-  { name: 'বাস', href: '/buses', icon: Bus },
+  { name: 'বাস ও রুট', href: '/buses', icon: Bus },
+  { name: 'কাউন্টার', href: '/counters', icon: MapPin },
+  { name: 'ট্যুর ও মিনি কোচ', href: '/tours', icon: Compass },
+];
+
+// Everything else lives one tap away under "আরও", instead of crowding the bar.
+const moreNavItems = [
   { name: 'অপারেটর', href: '/operators', icon: Building2 },
   { name: 'রুট', href: '/routes', icon: RouteIcon },
-  { name: 'কাউন্টার', href: '/counters', icon: MapPin },
-  { name: 'ভাড়া', href: '/fares', icon: DollarSign },
+  { name: 'ভাড়া তালিকা', href: '/fares', icon: DollarSign },
   { name: 'জেলা', href: '/districts', icon: MapPin },
   { name: 'মিনি কোচ', href: '/mini-coaches', icon: Car },
-  { name: 'ট্যুর প্যাকেজ', href: '/tours', icon: Compass },
   { name: 'যোগাযোগ', href: '/contact', icon: Phone },
 ];
 
+const allNavItemsForMobile = [...primaryNavItems, ...moreNavItems];
+
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [moreMenuOpen, setMoreMenuOpen] = useState(false);
   const pathname = usePathname();
+  const moreMenuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (moreMenuRef.current && !moreMenuRef.current.contains(event.target as Node)) {
+        setMoreMenuOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const isItemActive = (href: string) =>
+    pathname === href || (href !== '/' && pathname.startsWith(href));
 
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-emerald-100 shadow-xs">
@@ -56,10 +79,10 @@ export default function Navbar() {
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden xl:flex items-center space-x-1">
-            {navItems.map((item) => {
-              const isActive = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href));
+          {/* Desktop Navigation — kept short on purpose; everything else is under "আরও" */}
+          <nav className="hidden lg:flex items-center space-x-1">
+            {primaryNavItems.map((item) => {
+              const isActive = isItemActive(item.href);
               return (
                 <Link
                   key={item.href}
@@ -74,6 +97,44 @@ export default function Navbar() {
                 </Link>
               );
             })}
+
+            {/* "More" dropdown groups the less-frequently used links */}
+            <div className="relative" ref={moreMenuRef}>
+              <button
+                type="button"
+                onClick={() => setMoreMenuOpen((v) => !v)}
+                className={`px-3 py-2 rounded-lg text-sm font-semibold transition-colors inline-flex items-center gap-1 ${
+                  moreMenuOpen || moreNavItems.some((i) => isItemActive(i.href))
+                    ? 'text-emerald-700 bg-emerald-50/80 font-bold'
+                    : 'text-slate-600 hover:text-emerald-600 hover:bg-slate-50'
+                }`}
+              >
+                <span>আরও</span>
+                <ChevronDown className={`w-3.5 h-3.5 transition-transform ${moreMenuOpen ? 'rotate-180' : ''}`} />
+              </button>
+
+              {moreMenuOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl border border-slate-200 shadow-xl shadow-black/10 py-2 z-50">
+                  {moreNavItems.map((item) => {
+                    const Icon = item.icon;
+                    const isActive = isItemActive(item.href);
+                    return (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        onClick={() => setMoreMenuOpen(false)}
+                        className={`flex items-center gap-2.5 px-4 py-2 text-sm font-medium transition-colors ${
+                          isActive ? 'text-emerald-700 bg-emerald-50/60' : 'text-slate-600 hover:bg-slate-50 hover:text-emerald-600'
+                        }`}
+                      >
+                        <Icon className="w-4 h-4" />
+                        <span>{item.name}</span>
+                      </Link>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
           </nav>
 
           {/* Action CTAs */}
@@ -99,7 +160,7 @@ export default function Navbar() {
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label="মেনু খুলুন"
-              className="xl:hidden p-2 rounded-lg text-slate-700 hover:bg-slate-100"
+              className="lg:hidden p-2 rounded-lg text-slate-700 hover:bg-slate-100"
             >
               {mobileMenuOpen ? <X className="w-5 h-5 sm:w-6 sm:h-6" /> : <Menu className="w-5 h-5 sm:w-6 sm:h-6" />}
             </button>
@@ -109,11 +170,11 @@ export default function Navbar() {
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="xl:hidden bg-white border-b border-slate-200 px-4 pt-3 pb-6 space-y-1 shadow-xl">
+        <div className="lg:hidden bg-white border-b border-slate-200 px-4 pt-3 pb-6 space-y-1 shadow-xl">
           <div className="grid grid-cols-2 gap-1.5 pt-1">
-            {navItems.map((item) => {
+            {allNavItemsForMobile.map((item) => {
               const Icon = item.icon;
-              const isActive = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href));
+              const isActive = isItemActive(item.href);
               return (
                 <Link
                   key={item.href}
