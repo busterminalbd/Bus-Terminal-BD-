@@ -4,16 +4,16 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
-  title: 'BUS TERMINAL BD | বাংলাদেশের বাস ও ভ্রমণ তথ্যের সহজ ঠিকানা',
+  title: 'BUS TERMINAL BD | বাংলাদেশের বাস ও ভ্রমণ তথ্য',
   description: 'বাংলাদেশের সকল বাস, অপারেটর, রুট, কাউন্টার নম্বর, ভাড়া তালিকা, মিনি কোচ ও ট্যুর প্যাকেজ বুকিং তথ্য।',
   openGraph: {
-    title: 'BUS TERMINAL BD | বাংলাদেশের বাস ও ভ্রমণ তথ্যের সহজ ঠিকানা',
+    title: 'BUS TERMINAL BD | বাংলাদেশের বাস ও ভ্রমণ তথ্য',
     description: 'বাংলাদেশের সকল বাস, অপারেটর, রুট, কাউন্টার নম্বর, ভাড়া তালিকা, মিনি কোচ ও ট্যুর প্যাকেজ বুকিং তথ্য।',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'BUS TERMINAL BD | বাংলাদেশের বাস ও ভ্রমণ তথ্যের সহজ ঠিকানা',
+    title: 'BUS TERMINAL BD | বাংলাদেশের বাস ও ভ্রমণ তথ্য',
     description: 'বাংলাদেশের সকল বাস, অপারেটর, রুট, কাউন্টার নম্বর, ভাড়া তালিকা, মিনি কোচ ও ট্যুর প্যাকেজ বুকিং তথ্য।',
   },
 };

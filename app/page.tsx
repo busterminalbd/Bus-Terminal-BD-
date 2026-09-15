@@ -172,10 +172,13 @@ export default function HomePage() {
   };
 
   return (
-    <div className="space-y-16 sm:space-y-24 pb-20">
+    <>
       <ConfigAlert />
+      <BusImageCarousel buses={featuredBuses} />
 
+      <div className="space-y-16 sm:space-y-24 pb-20">
       {/* Hero Section */}
+
       <section className="relative overflow-hidden bg-gradient-to-b from-emerald-950 via-slate-900 to-slate-950 text-white pt-12 pb-24 sm:pt-20 sm:pb-32 px-4 sm:px-6 lg:px-8">
         {/* Subtle decorative background glow */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(16,185,129,0.15),transparent_50%)] pointer-events-none" />
@@ -347,9 +350,6 @@ export default function HomePage() {
           </div>
         )}
       </section>
-
-      {/* Bus image carousel */}
-      <BusImageCarousel buses={featuredBuses} />
 
       {/* Section 3: Featured Buses */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -576,6 +576,7 @@ export default function HomePage() {
         </div>
       </section>
 
-    </div>
+      </div>
+    </>
   );
 }
