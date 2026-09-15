@@ -172,10 +172,10 @@ export default function RouteDetailPage() {
           </div>
 
           <Link
-            href={`/booking?type=route&from=${encodeURIComponent(fromName)}&to=${encodeURIComponent(toName)}`}
-            className="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm rounded-xl shadow-md transition self-start sm:self-auto"
+            href="/mini-coaches"
+            className="px-6 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs sm:text-sm rounded-xl transition self-start sm:self-auto"
           >
-            এই রুটে বুকিং করুন
+            ভাড়া-যোগ্য কোস্টার দেখুন
           </Link>
         </div>
 
@@ -256,10 +256,10 @@ export default function RouteDetailPage() {
                     </td>
                     <td className="py-3 px-4">
                       <Link
-                        href={`/booking?type=bus&bus_id=${item.bus_id}`}
-                        className="px-3 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 rounded-lg text-xs font-bold"
+                        href={item.buses?.slug ? `/buses/${item.buses.slug}` : '/buses'}
+                        className="px-3 py-1 bg-slate-50 hover:bg-slate-100 text-slate-700 rounded-lg text-xs font-bold"
                       >
-                        বুকিং
+                        বাসের তথ্য
                       </Link>
                     </td>
                   </tr>

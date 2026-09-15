@@ -93,12 +93,9 @@ export default function BusCard({ bus }: BusCardProps) {
             <ChevronRight className="w-3.5 h-3.5" />
           </Link>
 
-          <Link
-            href={`/booking?type=bus&bus_id=${bus.id}`}
-            className="px-3 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-xs font-bold transition"
-          >
-            বুকিং অনুরোধ
-          </Link>
+          <span className="rounded-lg bg-slate-50 px-3 py-1.5 text-xs font-bold text-slate-500">
+            তথ্যের জন্য বিস্তারিত দেখুন
+          </span>
         </div>
       </div>
     </div>

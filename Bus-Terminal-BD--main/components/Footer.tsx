@@ -84,7 +84,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link href="/booking" className="hover:text-emerald-400 transition-colors font-medium text-emerald-400">
-                  অনলাইন বুকিং অনুরোধ
+                  কোস্টার বুকিং অনুরোধ
                 </Link>
               </li>
               <li>

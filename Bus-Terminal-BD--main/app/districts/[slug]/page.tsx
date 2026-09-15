@@ -172,10 +172,10 @@ export default function DistrictDetailPage() {
           </div>
 
           <Link
-            href={`/booking?destination=${encodeURIComponent(district.name)}`}
-            className="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm rounded-xl shadow-md transition"
+            href={`/buses?district=${encodeURIComponent(district.name)}`}
+            className="px-6 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs sm:text-sm rounded-xl transition"
           >
-            {district.name} এর জন্য বুকিং
+            {district.name} এর বাস তথ্য
           </Link>
         </div>
       </div>

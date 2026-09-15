@@ -91,7 +91,7 @@ export default function Navbar() {
               className="inline-flex items-center justify-center gap-1.5 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 shadow-md shadow-emerald-600/25 transition-all hover:shadow-lg active:scale-95"
             >
               <Calendar className="w-4 h-4 hidden sm:inline" />
-              <span>বুকিং করুন</span>
+              <span>কোস্টার বুকিং</span>
             </Link>
 
             {/* Mobile menu trigger */}
@@ -138,7 +138,7 @@ export default function Navbar() {
               onClick={() => setMobileMenuOpen(false)}
               className="w-full flex items-center justify-between px-4 py-3 bg-emerald-600 text-white font-bold rounded-xl shadow-md text-sm"
             >
-              <span>অনলাইন বুকিং ও অনুরোধ</span>
+              <span>কোস্টার বুকিং ও অনুরোধ</span>
               <ChevronRight className="w-4 h-4" />
             </Link>
           </div>

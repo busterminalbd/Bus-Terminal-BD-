@@ -209,10 +209,10 @@ export default function OperatorDetailPage() {
             </p>
           </div>
           <Link
-            href={`/booking?type=bus`}
-            className="text-xs font-bold px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl shadow-xs"
+            href="/buses"
+            className="text-xs font-bold px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl"
           >
-            বুকিং অনুরোধ
+            বাসের তথ্য দেখুন
           </Link>
         </div>
 

@@ -310,10 +310,10 @@ export default function FaresPage() {
                     </td>
                     <td className="py-3.5 px-4 text-right">
                       <Link
-                        href={`/booking?type=bus&bus_id=${f.bus_id}&from=${encodeURIComponent(fromName)}&to=${encodeURIComponent(toName)}`}
-                        className="px-3 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 rounded-lg text-xs font-bold inline-block"
+                        href={f.buses?.slug ? `/buses/${f.buses.slug}` : '/buses'}
+                        className="px-3 py-1 bg-slate-50 hover:bg-slate-100 text-slate-700 rounded-lg text-xs font-bold inline-block"
                       >
-                        বুকিং অনুরোধ
+                        বাসের তথ্য
                       </Link>
                     </td>
                   </tr>
