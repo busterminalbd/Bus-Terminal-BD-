@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { 
   Bus, 
@@ -19,7 +18,6 @@ import {
   ChevronRight, 
   ArrowRight,
   CheckCircle2,
-  Sparkles
 } from 'lucide-react';
 import { supabase, isSupabaseConfigured, District, Bus as BusType, BusOperator, Route, TourPackage, MiniCoach, safeQuery, logSupabaseError, attachDistrictsToRoutes, isMissingRelationshipError } from '@/lib/supabase';
 import ConfigAlert from '@/components/ConfigAlert';
@@ -177,29 +175,11 @@ export default function HomePage() {
       <BusImageCarousel buses={featuredBuses} />
 
       <div className="space-y-16 sm:space-y-24 pb-20">
-      {/* Hero Section */}
-
-      <section className="relative overflow-hidden bg-gradient-to-b from-emerald-950 via-slate-900 to-slate-950 text-white pt-12 pb-24 sm:pt-20 sm:pb-32 px-4 sm:px-6 lg:px-8">
-        {/* Subtle decorative background glow */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(16,185,129,0.15),transparent_50%)] pointer-events-none" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(6,95,70,0.2),transparent_50%)] pointer-events-none" />
-
-        <div className="relative max-w-5xl mx-auto text-center space-y-6">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs sm:text-sm font-medium">
-            <Sparkles className="w-4 h-4 text-emerald-400" />
-            <span>লাইভ বাস ডাটাবেস ও অনলাইন বুকিং সিস্টেম</span>
-          </div>
-
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-tight">
-            BUS TERMINAL <span className="text-emerald-400">BD</span>
-          </h1>
-
-          <p className="text-base sm:text-xl text-slate-300 max-w-2xl mx-auto font-normal leading-relaxed">
-            &quot;বাংলাদেশের বাস ও ভ্রমণ তথ্যের সহজ ঠিকানা&quot;
-          </p>
-
+      {/* Search Section */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-emerald-950 via-slate-900 to-slate-950 text-white px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+        <div className="relative max-w-5xl mx-auto text-center">
           {/* Search Box */}
-          <div className="pt-4 max-w-4xl mx-auto text-left">
+          <div className="max-w-4xl mx-auto text-left">
             <form 
               onSubmit={handleSearch}
               className="bg-white p-4 sm:p-6 rounded-2xl sm:rounded-3xl shadow-2xl shadow-black/40 text-slate-900 grid grid-cols-1 sm:grid-cols-12 gap-3 sm:gap-4 items-end border border-slate-100"
