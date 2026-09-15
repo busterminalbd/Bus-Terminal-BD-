@@ -12,22 +12,17 @@ import {
   FileText, 
   CheckCircle2, 
   AlertCircle, 
-  Bus, 
-  Car, 
-  Compass, 
+  Car,
   Search,
   Clock
 } from 'lucide-react';
-import { supabase, Booking, Bus as BusType, MiniCoach, TourPackage, safeQuery, logSupabaseError } from '@/lib/supabase';
+import { supabase, Booking, MiniCoach, safeQuery, logSupabaseError } from '@/lib/supabase';
 import ErrorMessage from '@/components/ErrorMessage';
-import { trackMetaEvent } from '@/lib/metaPixelEvents';
 
 function BookingFormContent() {
   const searchParams = useSearchParams();
-  const preType = (searchParams.get('type') as 'bus' | 'mini_coach' | 'tour_package') || 'bus';
-  const preBusId = searchParams.get('bus_id') || '';
   const preMiniCoachId = searchParams.get('mini_coach_id') || '';
-  const preTourId = searchParams.get('tour_package_id') || '';
+
   const preName = searchParams.get('name') || '';
   const preFrom = searchParams.get('from') || '';
   const preTo = searchParams.get('to') || searchParams.get('destination') || '';
@@ -36,9 +31,7 @@ function BookingFormContent() {
   const [activeTab, setActiveTab] = useState<'create' | 'status'>('create');
 
   // Form states
-  const [bookingType, setBookingType] = useState<'bus' | 'mini_coach' | 'tour_package'>(
-    ['bus', 'mini_coach', 'tour_package'].includes(preType) ? preType : 'bus'
-  );
+  const bookingType = 'mini_coach' as const;
   const [userName, setUserName] = useState('');
   const [userPhone, setUserPhone] = useState('');
   const [userEmail, setUserEmail] = useState('');
@@ -47,14 +40,10 @@ function BookingFormContent() {
   const [pickupLocation, setPickupLocation] = useState(preFrom);
   const [dropoffLocation, setDropoffLocation] = useState(preTo);
   const [notes, setNotes] = useState(preName ? `নির্বাচিত: ${preName}` : '');
-  const [busId, setBusId] = useState(preBusId);
   const [miniCoachId, setMiniCoachId] = useState(preMiniCoachId);
-  const [tourPackageId, setTourPackageId] = useState(preTourId);
 
   // Lists for dropdown selection
-  const [buses, setBuses] = useState<BusType[]>([]);
   const [miniCoaches, setMiniCoaches] = useState<MiniCoach[]>([]);
-  const [tours, setTours] = useState<TourPackage[]>([]);
 
   // Submission status
   const [submitting, setSubmitting] = useState(false);
@@ -70,13 +59,6 @@ function BookingFormContent() {
   useEffect(() => {
     let ignore = false;
     async function loadSelectOptions() {
-      // Buses
-      const { data: bData } = await safeQuery<BusType[]>((col) => {
-        let q = supabase.from('buses').select('id, name, is_ac');
-        if (col) q = q.eq(col, true);
-        return q;
-      });
-      if (!ignore && bData) setBuses(bData);
 
       // Mini coaches
       const { data: mData } = await safeQuery<MiniCoach[]>((col) => {
@@ -86,26 +68,12 @@ function BookingFormContent() {
       });
       if (!ignore && mData) setMiniCoaches(mData);
 
-      // Tour packages
-      const { data: tData } = await safeQuery<TourPackage[]>((col) => {
-        let q = supabase.from('tour_packages').select('id, title, destination');
-        if (col) q = q.eq(col, true);
-        return q;
-      });
-      if (!ignore && tData) setTours(tData);
     }
     loadSelectOptions();
     return () => {
       ignore = true;
     };
   }, []);
-
-  useEffect(() => {
-    trackMetaEvent('InitiateCheckout', {
-      content_type: 'booking',
-      booking_type: bookingType,
-    });
-  }, [bookingType]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -138,20 +106,14 @@ function BookingFormContent() {
         pickup_location: pickupLocation.trim() || null,
         destination: dropoffLocation.trim() || null,
         special_request: notes.trim() || null,
-        bus_id: bookingType === 'bus' && busId ? busId : null,
-        mini_coach_id: bookingType === 'mini_coach' && miniCoachId ? miniCoachId : null,
-        tour_package_id: bookingType === 'tour_package' && tourPackageId ? tourPackageId : null,
+        bus_id: null,
+        mini_coach_id: miniCoachId || null,
+        tour_package_id: null,
         status: 'pending'
       };
 
       const { error: insertError } = await supabase.from('bookings').insert([payload]);
       if (insertError) throw insertError;
-
-      trackMetaEvent('Lead', {
-        content_name: 'Bus Terminal BD Booking',
-        content_type: 'booking',
-        booking_type: bookingType,
-      });
 
       setSubmitSuccess(true);
     } catch (err: unknown) {
@@ -201,7 +163,7 @@ function BookingFormContent() {
       <div className="text-center space-y-2">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold">
           <Calendar className="w-3.5 h-3.5" />
-          <span>অনলাইন বুকিং পোর্টাল</span>
+          <span>মিনি কোচ / কোস্টার রেন্টাল বুকিং পোর্টাল</span>
         </div>
         <h1 className="text-3xl sm:text-4xl font-black text-slate-900">
           টিকেট ও সিট বুকিং অনুরোধ
@@ -356,111 +318,27 @@ function BookingFormContent() {
           )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Booking Type Select */}
+            {/* Rental vehicle selection */}
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-2">
-                বুকিং এর ধরন নির্বাচন করুন
-              </label>
-              <div className="grid grid-cols-3 gap-2">
-                <button
-                  type="button"
-                  onClick={() => setBookingType('bus')}
-                  className={`p-3 rounded-xl border flex flex-col items-center justify-center gap-1 transition ${
-                    bookingType === 'bus'
-                      ? 'border-emerald-600 bg-emerald-50/60 text-emerald-800 font-bold shadow-2xs'
-                      : 'border-slate-200 text-slate-600 hover:bg-slate-50'
-                  }`}
-                >
-                  <Bus className="w-5 h-5" />
-                  <span className="text-xs">বাস টিকেট</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setBookingType('mini_coach')}
-                  className={`p-3 rounded-xl border flex flex-col items-center justify-center gap-1 transition ${
-                    bookingType === 'mini_coach'
-                      ? 'border-emerald-600 bg-emerald-50/60 text-emerald-800 font-bold shadow-2xs'
-                      : 'border-slate-200 text-slate-600 hover:bg-slate-50'
-                  }`}
-                >
-                  <Car className="w-5 h-5" />
-                  <span className="text-xs">মিনি কোচ রেন্টাল</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setBookingType('tour_package')}
-                  className={`p-3 rounded-xl border flex flex-col items-center justify-center gap-1 transition ${
-                    bookingType === 'tour_package'
-                      ? 'border-emerald-600 bg-emerald-50/60 text-emerald-800 font-bold shadow-2xs'
-                      : 'border-slate-200 text-slate-600 hover:bg-slate-50'
-                  }`}
-                >
-                  <Compass className="w-5 h-5" />
-                  <span className="text-xs">ট্যুর প্যাকেজ</span>
-                </button>
+              <label className="block text-xs font-bold text-slate-700 mb-2">রেন্টাল বাহন নির্বাচন করুন</label>
+              <div className="flex items-center gap-3 p-4 rounded-2xl border border-emerald-200 bg-emerald-50/60 text-emerald-800">
+                <Car className="w-6 h-6" />
+                <div>
+                  <p className="text-sm font-black">মিনি কোচ / কোস্টার রেন্টাল</p>
+                  <p className="text-[11px] text-emerald-700 mt-0.5">শুধু ভাড়া নেওয়ার উপযোগী মিনি কোচ/কোস্টারের জন্য অনুরোধ পাঠানো যাবে।</p>
+                </div>
               </div>
+              <select
+                value={miniCoachId}
+                onChange={(e) => setMiniCoachId(e.target.value)}
+                className="mt-3 w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-emerald-500 focus:outline-hidden"
+              >
+                <option value="">উপলব্ধ যেকোনো মিনি কোচ / কোস্টার</option>
+                {miniCoaches.map((m) => (
+                  <option key={m.id} value={m.id}>{m.name} ({m.is_ac ? 'AC' : 'Non-AC'})</option>
+                ))}
+              </select>
             </div>
-
-            {/* Specific Service Dropdowns */}
-            {bookingType === 'bus' && (
-              <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">
-                  নির্দিষ্ট বাস (ঐচ্ছিক)
-                </label>
-                <select
-                  value={busId}
-                  onChange={(e) => setBusId(e.target.value)}
-                  className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-emerald-500 focus:outline-hidden"
-                >
-                  <option value="">কোনো নির্দিষ্ট বাস নেই (পরবর্তীতে নির্ধারিত হবে)</option>
-                  {buses.map((b) => (
-                    <option key={b.id} value={b.id}>
-                      {b.name} ({b.is_ac ? 'AC' : 'Non-AC'})
-                    </option>
-                  ))}
-                </select>
-              </div>
-            )}
-
-            {bookingType === 'mini_coach' && (
-              <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">
-                  মিনি কোচ নির্বাচন করুন (ঐচ্ছিক)
-                </label>
-                <select
-                  value={miniCoachId}
-                  onChange={(e) => setMiniCoachId(e.target.value)}
-                  className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-emerald-500 focus:outline-hidden"
-                >
-                  <option value="">উপলব্ধ যেকোনো মিনি কোচ</option>
-                  {miniCoaches.map((m) => (
-                    <option key={m.id} value={m.id}>
-                      {m.name} ({m.is_ac ? 'AC' : 'Non-AC'})
-                    </option>
-                  ))}
-                </select>
-              </div>
-            )}
-
-            {bookingType === 'tour_package' && (
-              <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">
-                  ট্যুর প্যাকেজ নির্বাচন করুন (ঐচ্ছিক)
-                </label>
-                <select
-                  value={tourPackageId}
-                  onChange={(e) => setTourPackageId(e.target.value)}
-                  className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-emerald-500 focus:outline-hidden"
-                >
-                  <option value="">প্যাকেজ নির্বাচন করুন</option>
-                  {tours.map((t) => (
-                    <option key={t.id} value={t.id}>
-                      {t.title} - {t.destination}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            )}
 
             {/* Personal Details */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

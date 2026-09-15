@@ -69,12 +69,6 @@ export default function TourCard({ tour }: TourCardProps) {
             <span>প্যাকেজ বিবরণ</span>
             <ChevronRight className="w-3.5 h-3.5" />
           </Link>
-          <Link
-            href={`/booking?type=tour&tour_package_id=${tour.id}&title=${encodeURIComponent(tour.title)}`}
-            className="px-3 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-xs font-bold transition"
-          >
-            বুকিং অনুরোধ
-          </Link>
         </div>
       </div>
     </div>

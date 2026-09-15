@@ -170,13 +170,6 @@ export default function RouteDetailPage() {
             <ArrowRight className="w-6 h-6 sm:w-8 sm:h-8 text-emerald-600 shrink-0" />
             <span>{toName}</span>
           </div>
-
-          <Link
-            href={`/booking?type=route&from=${encodeURIComponent(fromName)}&to=${encodeURIComponent(toName)}`}
-            className="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm rounded-xl shadow-md transition self-start sm:self-auto"
-          >
-            এই রুটে বুকিং করুন
-          </Link>
         </div>
 
         {/* Stats */}
@@ -255,12 +248,7 @@ export default function RouteDetailPage() {
                       {item.fare ? `৳ ${item.fare}` : '-'}
                     </td>
                     <td className="py-3 px-4">
-                      <Link
-                        href={`/booking?type=bus&bus_id=${item.bus_id}`}
-                        className="px-3 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 rounded-lg text-xs font-bold"
-                      >
-                        বুকিং
-                      </Link>
+                      <span className="text-xs font-semibold text-slate-400">তথ্য</span>
                     </td>
                   </tr>
                 ))}

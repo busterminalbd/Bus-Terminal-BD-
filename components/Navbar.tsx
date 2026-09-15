@@ -37,20 +37,21 @@ export default function Navbar() {
   const pathname = usePathname();
 
   return (
+    <>
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-emerald-100 shadow-xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-14 sm:h-20">
+        <div className="flex items-center justify-between h-16 sm:h-20">
           
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 sm:gap-3 group">
-            <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-emerald-600 flex items-center justify-center text-white shadow-md shadow-emerald-600/20 group-hover:scale-105 transition-transform duration-200">
-              <Bus className="w-5 h-5 sm:w-6 sm:h-6" />
+          <Link href="/" className="flex items-center gap-3 group">
+            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-emerald-600 flex items-center justify-center text-white shadow-md shadow-emerald-600/20 group-hover:scale-105 transition-transform duration-200">
+              <Bus className="w-6 h-6" />
             </div>
             <div>
-              <span className="text-base sm:text-2xl font-black tracking-tight text-slate-900 block leading-none">
+              <span className="text-xl sm:text-2xl font-black tracking-tight text-slate-900 block leading-none">
                 BUS TERMINAL <span className="text-emerald-600">BD</span>
               </span>
-              <span className="text-[9px] sm:text-xs text-slate-500 font-medium tracking-wide">
+              <span className="text-[11px] sm:text-xs text-slate-500 font-medium tracking-wide">
                 বাংলাদেশের বাস ও ভ্রমণ তথ্য
               </span>
             </div>
@@ -81,14 +82,14 @@ export default function Navbar() {
             <Link
               href="/search"
               aria-label="অনুসন্ধান"
-              className="p-1.5 sm:p-2.5 rounded-lg text-slate-600 hover:text-emerald-600 hover:bg-slate-100 transition-colors"
+              className="p-2 sm:p-2.5 rounded-lg text-slate-600 hover:text-emerald-600 hover:bg-slate-100 transition-colors"
             >
               <Search className="w-5 h-5" />
             </Link>
 
             <Link
               href="/booking"
-              className="inline-flex items-center justify-center gap-1 px-2.5 sm:gap-1.5 sm:px-5 py-1.5 sm:py-2.5 rounded-xl text-[11px] sm:text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 shadow-md shadow-emerald-600/25 transition-all hover:shadow-lg active:scale-95"
+              className="inline-flex items-center justify-center gap-1.5 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 shadow-md shadow-emerald-600/25 transition-all hover:shadow-lg active:scale-95"
             >
               <Calendar className="w-4 h-4 hidden sm:inline" />
               <span>বুকিং করুন</span>
@@ -101,15 +102,24 @@ export default function Navbar() {
               aria-label="মেনু খুলুন"
               className="xl:hidden p-2 rounded-lg text-slate-700 hover:bg-slate-100"
             >
-              {mobileMenuOpen ? <X className="w-5 h-5 sm:w-6 sm:h-6" /> : <Menu className="w-5 h-5 sm:w-6 sm:h-6" />}
+              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile Drawer Menu */}
+      {/* Mobile drawer is rendered below the header so it is not clipped by sticky header stacking */}
+    </header>
+
       {mobileMenuOpen && (
-        <div className="xl:hidden bg-white border-b border-slate-200 px-4 pt-3 pb-6 space-y-1 shadow-xl">
+        <div className="fixed inset-0 z-[100] xl:hidden" role="dialog" aria-modal="true">
+          <button aria-label="মেনু বন্ধ করুন" onClick={() => setMobileMenuOpen(false)} className="absolute inset-0 bg-slate-950/45 backdrop-blur-[1px]" />
+          <aside className="absolute right-0 top-0 h-full w-[min(88vw,380px)] bg-white shadow-2xl border-l border-slate-200 flex flex-col overflow-y-auto">
+            <div className="h-16 flex items-center justify-between px-4 border-b border-slate-200 shrink-0">
+              <span className="font-black text-slate-900">মেনু</span>
+              <button type="button" onClick={() => setMobileMenuOpen(false)} aria-label="মেনু বন্ধ করুন" className="p-2 rounded-lg text-slate-600 hover:bg-slate-100"><X className="w-6 h-6" /></button>
+            </div>
+            <div className="px-4 pt-4 pb-6 space-y-1">
           <div className="grid grid-cols-2 gap-1.5 pt-1">
             {navItems.map((item) => {
               const Icon = item.icon;
@@ -132,7 +142,7 @@ export default function Navbar() {
             })}
           </div>
 
-          <div className="pt-4 mt-2 border-t border-slate-100 flex flex-col gap-2">
+              <div className="pt-4 mt-2 border-t border-slate-100 flex flex-col gap-2">
             <Link
               href="/booking"
               onClick={() => setMobileMenuOpen(false)}
@@ -141,9 +151,11 @@ export default function Navbar() {
               <span>অনলাইন বুকিং ও অনুরোধ</span>
               <ChevronRight className="w-4 h-4" />
             </Link>
-          </div>
+              </div>
+            </div>
+          </aside>
         </div>
       )}
-    </header>
+    </>
   );
 }

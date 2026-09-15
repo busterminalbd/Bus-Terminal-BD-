@@ -28,6 +28,7 @@ import OperatorCard from '@/components/OperatorCard';
 import RouteCard from '@/components/RouteCard';
 import TourCard from '@/components/TourCard';
 import MiniCoachCard from '@/components/MiniCoachCard';
+import BusImageCarousel from '@/components/BusImageCarousel';
 
 export default function HomePage() {
   const router = useRouter();
@@ -347,6 +348,9 @@ export default function HomePage() {
         )}
       </section>
 
+      {/* Bus image carousel */}
+      <BusImageCarousel buses={featuredBuses} />
+
       {/* Section 3: Featured Buses */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between mb-8">
@@ -499,10 +503,10 @@ export default function HomePage() {
         <div className="bg-emerald-600 rounded-3xl p-8 sm:p-12 text-white flex flex-col md:flex-row items-center justify-between gap-8 shadow-lg shadow-emerald-700/20">
           <div className="max-w-xl space-y-3 text-center md:text-left">
             <h2 className="text-2xl sm:text-3xl font-black">
-              বাস, মিনি কোচ বা ট্যুর বুকিং করতে চান?
+              মিনি কোচ বা কোস্টার ভাড়া করতে চান?
             </h2>
             <p className="text-sm text-emerald-100 leading-relaxed">
-              কোনো অ্যাকাউন্ট খোলার ঝামেলা নেই! শুধুমাত্র নাম ও মোবাইল নম্বর দিয়ে মুহূর্তেই অনুরোধ পাঠিয়ে দিন।
+              কোনো অ্যাকাউন্ট খোলার ঝামেলা নেই! নাম ও মোবাইল নম্বর দিয়ে মিনি কোচ বা কোস্টার ভাড়ার অনুরোধ পাঠিয়ে দিন।
             </p>
           </div>
           <Link

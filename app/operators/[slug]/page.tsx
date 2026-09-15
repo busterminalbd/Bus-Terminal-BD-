@@ -208,12 +208,6 @@ export default function OperatorDetailPage() {
               এই অপারেটরের সকল এসি ও নন-এসি ক্যাটাগরির বাস
             </p>
           </div>
-          <Link
-            href={`/booking?type=bus`}
-            className="text-xs font-bold px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl shadow-xs"
-          >
-            বুকিং অনুরোধ
-          </Link>
         </div>
 
         {buses.length > 0 ? (

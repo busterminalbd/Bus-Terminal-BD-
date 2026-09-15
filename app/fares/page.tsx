@@ -309,12 +309,7 @@ export default function FaresPage() {
                       {f.notes || '-'}
                     </td>
                     <td className="py-3.5 px-4 text-right">
-                      <Link
-                        href={`/booking?type=bus&bus_id=${f.bus_id}&from=${encodeURIComponent(fromName)}&to=${encodeURIComponent(toName)}`}
-                        className="px-3 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 rounded-lg text-xs font-bold inline-block"
-                      >
-                        বুকিং অনুরোধ
-                      </Link>
+                      <span className="text-xs font-semibold text-slate-400">শুধু তথ্য</span>
                     </td>
                   </tr>
                 );

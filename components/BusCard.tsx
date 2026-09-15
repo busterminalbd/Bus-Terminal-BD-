@@ -86,19 +86,14 @@ export default function BusCard({ bus }: BusCardProps) {
         {/* Action Button */}
         <div className="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
           <Link
-            href={`/buses/${bus.id}`}
+            href={`/buses/${bus.slug || bus.id}`}
             className="text-xs font-bold text-emerald-700 hover:text-emerald-800 flex items-center gap-1"
           >
             <span>বিস্তারিত তথ্য</span>
             <ChevronRight className="w-3.5 h-3.5" />
           </Link>
 
-          <Link
-            href={`/booking?type=bus&bus_id=${bus.id}`}
-            className="px-3 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-xs font-bold transition"
-          >
-            বুকিং অনুরোধ
-          </Link>
+
         </div>
       </div>
     </div>

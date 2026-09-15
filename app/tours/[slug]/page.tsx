@@ -151,12 +151,6 @@ export default function TourDetailPage() {
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
-            <Link
-              href={`/booking?type=tour&tour_package_id=${tour.id}&title=${encodeURIComponent(tour.title)}`}
-              className="px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-black rounded-xl shadow-md transition"
-            >
-              বুকিং অনুরোধ পাঠান
-            </Link>
             {tour.phone && (
               <a
                 href={`tel:${tour.phone}`}

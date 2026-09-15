@@ -170,13 +170,6 @@ export default function DistrictDetailPage() {
               {district.name} থেকে দেশের যেকোনো প্রান্তে বাস চলাচল, টিকিট ও কাউন্টার সংক্রান্ত সকল তথ্য।
             </p>
           </div>
-
-          <Link
-            href={`/booking?destination=${encodeURIComponent(district.name)}`}
-            className="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm rounded-xl shadow-md transition"
-          >
-            {district.name} এর জন্য বুকিং
-          </Link>
         </div>
       </div>
 

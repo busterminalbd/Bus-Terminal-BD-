@@ -19,7 +19,6 @@ import {
 } from 'lucide-react';
 import { supabase, Bus, BusOperator, BusRoute, Counter, Fare, District, safeQuery, logSupabaseError, isMissingRelationshipError } from '@/lib/supabase';
 import ErrorMessage from '@/components/ErrorMessage';
-import { trackMetaEvent } from '@/lib/metaPixelEvents';
 import EmptyState from '@/components/EmptyState';
 
 export default function BusDetailPage() {
@@ -73,15 +72,9 @@ export default function BusDetailPage() {
         setLoading(true);
         setError(null);
 
-        const decodedParam = decodeURIComponent(slugParam);
-        // Live Supabase buses.id is numeric (e.g. 2), so /buses/2 is an ID,
-        // not a slug. UUID IDs are supported too.
-        const isNumericId = /^\d+$/.test(decodedParam);
-        const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(decodedParam);
-        const isId = isNumericId || isUUID;
+        const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(slugParam);
 
-        // Prefer the immutable bus ID for details URLs. Slugs can be changed
-        // by an admin edit, so the details page must not depend on a mutable slug.
+        // Fetch bus by slug or ID (joined with its operator)
         let { data: busData, error: bError } = await safeQuery<Bus>((col) => {
           let q = supabase
             .from('buses')
@@ -90,28 +83,13 @@ export default function BusDetailPage() {
               bus_operators(*)
             `);
           if (col) q = q.eq(col, true);
-          if (isId) {
-            q = q.eq('id', decodedParam);
+          if (isUUID) {
+            q = q.eq('id', slugParam);
           } else {
-            q = q.eq('slug', decodedParam);
+            q = q.eq('slug', slugParam);
           }
-          return q.maybeSingle();
+          return q.single();
         });
-
-        // If the URL slug no longer matches after an admin edit, try the bus name
-        // as a compatibility fallback. This keeps an existing details URL usable
-        // when the record's slug was changed accidentally.
-        if (!bError && !busData && !isId) {
-          const fallbackByName = await safeQuery<Bus>((col) => {
-            let q = supabase
-              .from('buses')
-              .select(`*, bus_operators(*)`)
-              .eq('name', decodeURIComponent(slugParam));
-            if (col) q = q.eq(col, true);
-            return q.maybeSingle();
-          });
-          if (fallbackByName.data) busData = fallbackByName.data;
-        }
 
         // If the joined query fails (e.g. the bus_operators relationship
         // isn't recognized by PostgREST's schema cache), fall back to a
@@ -123,11 +101,11 @@ export default function BusDetailPage() {
             let q = supabase.from('buses').select('*');
             if (col) q = q.eq(col, true);
             if (isUUID) {
-              q = q.eq('id', decodedParam);
+              q = q.eq('id', slugParam);
             } else {
-              q = q.eq('slug', decodeURIComponent(slugParam));
+              q = q.eq('slug', slugParam);
             }
-            return q.maybeSingle();
+            return q.single();
           });
 
           busData = fallback.data;
@@ -146,14 +124,6 @@ export default function BusDetailPage() {
         if (ignore) return;
         if (bError) throw bError;
         setBus(busData);
-
-        if (busData) {
-          trackMetaEvent('ViewContent', {
-            content_name: busData.name,
-            content_type: 'bus',
-            content_ids: [String(busData.id)],
-          });
-        }
 
         if (busData) {
           if (busData.bus_operators) {
@@ -371,12 +341,6 @@ export default function BusDetailPage() {
 
             {/* CTAs */}
             <div className="pt-4 border-t border-slate-100 flex flex-wrap items-center gap-3">
-              <Link
-                href={`/booking?type=bus&bus_id=${bus.id}&name=${encodeURIComponent(bus.name)}`}
-                className="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-bold rounded-xl shadow-md transition active:scale-95"
-              >
-                আসন বুকিং অনুরোধ পাঠান
-              </Link>
               {bus.phone && (
                 <a
                   href={`tel:${bus.phone}`}

@@ -61,12 +61,6 @@ export default function RouteCard({ route, fareAmount }: RouteCardProps) {
           <span>বাস ও সময়সূচি দেখুন</span>
           <ChevronRight className="w-3 h-3" />
         </Link>
-        <Link
-          href={`/booking?type=route&from=${encodeURIComponent(fromName)}&to=${encodeURIComponent(toName)}`}
-          className="text-xs font-semibold text-slate-600 hover:text-emerald-600"
-        >
-          বুকিং
-        </Link>
       </div>
     </div>
   );
