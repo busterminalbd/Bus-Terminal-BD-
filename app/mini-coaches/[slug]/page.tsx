@@ -68,7 +68,7 @@ export default function MiniCoachDetailPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <ErrorMessage message={error || 'মিনি কোচটি পাওয়া যায়নি।'} />
         <div className="text-center mt-4">
-          <Link href="/mini-coaches" className="inline-flex items-center gap-1.5 text-red-700 font-bold text-sm">
+          <Link href="/mini-coaches" className="inline-flex items-center gap-1.5 text-emerald-700 font-bold text-sm">
             <ArrowLeft className="w-4 h-4" />
             <span>মিনি কোচ তালিকায় ফিরে যান</span>
           </Link>
@@ -84,7 +84,7 @@ export default function MiniCoachDetailPage() {
       <div>
         <Link
           href="/mini-coaches"
-          className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-red-700 transition"
+          className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-emerald-700 transition"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>সকল মিনি কোচ তালিকা</span>
@@ -116,7 +116,7 @@ export default function MiniCoachDetailPage() {
                   {coach.is_ac ? 'এসি (AC)' : 'নন-এসি'}
                 </span>
                 {coach.vehicle_type && (
-                  <span className="px-3 py-1 rounded-full text-xs font-semibold bg-red-50 text-red-700">
+                  <span className="px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700">
                     {coach.vehicle_type}
                   </span>
                 )}
@@ -168,7 +168,7 @@ export default function MiniCoachDetailPage() {
             <div className="pt-6 border-t border-slate-100 flex flex-wrap items-center gap-4">
               <Link
                 href={`/booking?type=mini_coach&mini_coach_id=${coach.id}&name=${encodeURIComponent(coach.name)}`}
-                className="px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-black rounded-xl text-xs sm:text-sm shadow-md transition active:scale-95"
+                className="px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-black rounded-xl text-xs sm:text-sm shadow-md transition active:scale-95"
               >
                 ভাড়া জানতে / বুকিং করতে যোগাযোগ করুন
               </Link>
@@ -177,7 +177,7 @@ export default function MiniCoachDetailPage() {
                   href={`tel:${coach.phone}`}
                   className="px-5 py-3 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold rounded-xl text-xs sm:text-sm inline-flex items-center gap-2 transition"
                 >
-                  <Phone className="w-4 h-4 text-red-600" />
+                  <Phone className="w-4 h-4 text-emerald-600" />
                   <span>{coach.phone}</span>
                 </a>
               )}

@@ -56,7 +56,7 @@ export default function OperatorsPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8">
       {/* Header */}
       <div className="border-b border-slate-200 pb-6">
-        <div className="flex items-center gap-2 text-red-600 font-bold text-xs uppercase tracking-wider mb-1">
+        <div className="flex items-center gap-2 text-emerald-600 font-bold text-xs uppercase tracking-wider mb-1">
           <Building2 className="w-4 h-4" />
           <span>পরিবহন সংস্থা</span>
         </div>
@@ -75,7 +75,7 @@ export default function OperatorsPage() {
             placeholder="অপারেটরের নাম দিয়ে খুঁজুন..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-red-500 focus:outline-hidden shadow-2xs"
+            className="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-hidden shadow-2xs"
           />
         </div>
       </div>

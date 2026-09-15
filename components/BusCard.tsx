@@ -43,11 +43,11 @@ export default function BusCard({ bus }: BusCardProps) {
       <div className="p-5 flex-1 flex flex-col justify-between">
         <div>
           {bus.bus_operators && (
-            <p className="text-xs font-semibold text-red-600 mb-1">
+            <p className="text-xs font-semibold text-emerald-600 mb-1">
               {bus.bus_operators.name}
             </p>
           )}
-          <h3 className="text-lg font-bold text-slate-900 group-hover:text-red-700 transition-colors">
+          <h3 className="text-lg font-bold text-slate-900 group-hover:text-emerald-700 transition-colors">
             {bus.name}
           </h3>
           {bus.bus_type && (
@@ -76,7 +76,7 @@ export default function BusCard({ bus }: BusCardProps) {
             )}
             {bus.phone && (
               <div className="flex items-center gap-1.5 truncate">
-                <Phone className="w-3.5 h-3.5 text-red-500 shrink-0" />
+                <Phone className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
                 <span className="truncate font-mono">{bus.phone}</span>
               </div>
             )}
@@ -87,7 +87,7 @@ export default function BusCard({ bus }: BusCardProps) {
         <div className="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
           <Link
             href={`/buses/${bus.id}`}
-            className="text-xs font-bold text-red-700 hover:text-red-800 flex items-center gap-1"
+            className="text-xs font-bold text-emerald-700 hover:text-emerald-800 flex items-center gap-1"
           >
             <span>বিস্তারিত তথ্য</span>
             <ChevronRight className="w-3.5 h-3.5" />
@@ -95,7 +95,7 @@ export default function BusCard({ bus }: BusCardProps) {
 
           <Link
             href={`/booking?type=bus&bus_id=${bus.id}`}
-            className="px-3 py-1.5 rounded-lg bg-red-50 hover:bg-red-100 text-red-800 text-xs font-bold transition"
+            className="px-3 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-xs font-bold transition"
           >
             বুকিং অনুরোধ
           </Link>

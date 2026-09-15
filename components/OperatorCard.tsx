@@ -28,12 +28,12 @@ export default function OperatorCard({ operator }: OperatorCardProps) {
             )}
           </div>
           <div className="min-w-0 flex-1">
-            <h3 className="text-base font-bold text-slate-900 group-hover:text-red-700 transition-colors truncate">
+            <h3 className="text-base font-bold text-slate-900 group-hover:text-emerald-700 transition-colors truncate">
               {operator.name}
             </h3>
             {operator.phone && (
               <div className="flex items-center gap-1 text-xs text-slate-600 mt-1">
-                <Phone className="w-3.5 h-3.5 text-red-600 shrink-0" />
+                <Phone className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
                 <span className="font-mono">{operator.phone}</span>
               </div>
             )}
@@ -64,7 +64,7 @@ export default function OperatorCard({ operator }: OperatorCardProps) {
 
         <Link
           href={`/operators/${operator.slug || operator.id}`}
-          className="text-xs font-bold text-red-600 hover:text-red-700 inline-flex items-center gap-1"
+          className="text-xs font-bold text-emerald-600 hover:text-emerald-700 inline-flex items-center gap-1"
         >
           <span>বাস ও রুটসমূহ</span>
           <ChevronRight className="w-3.5 h-3.5" />

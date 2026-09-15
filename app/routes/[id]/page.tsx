@@ -137,7 +137,7 @@ export default function RouteDetailPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <ErrorMessage message={error || 'রুটটি পাওয়া যায়নি।'} />
         <div className="text-center mt-4">
-          <Link href="/routes" className="inline-flex items-center gap-1.5 text-red-700 font-bold text-sm">
+          <Link href="/routes" className="inline-flex items-center gap-1.5 text-emerald-700 font-bold text-sm">
             <ArrowLeft className="w-4 h-4" />
             <span>সকল রুটে ফিরে যান</span>
           </Link>
@@ -155,7 +155,7 @@ export default function RouteDetailPage() {
       <div>
         <Link
           href="/routes"
-          className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-red-700 transition"
+          className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-emerald-700 transition"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>সকল রুটসমূহ</span>
@@ -167,13 +167,13 @@ export default function RouteDetailPage() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3 text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900">
             <span>{fromName}</span>
-            <ArrowRight className="w-6 h-6 sm:w-8 sm:h-8 text-red-600 shrink-0" />
+            <ArrowRight className="w-6 h-6 sm:w-8 sm:h-8 text-emerald-600 shrink-0" />
             <span>{toName}</span>
           </div>
 
           <Link
             href={`/booking?type=route&from=${encodeURIComponent(fromName)}&to=${encodeURIComponent(toName)}`}
-            className="px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm rounded-xl shadow-md transition self-start sm:self-auto"
+            className="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm rounded-xl shadow-md transition self-start sm:self-auto"
           >
             এই রুটে বুকিং করুন
           </Link>
@@ -183,13 +183,13 @@ export default function RouteDetailPage() {
         <div className="flex flex-wrap items-center gap-6 pt-2 text-xs sm:text-sm text-slate-600">
           {route.distance_km && (
             <div className="flex items-center gap-2">
-              <MapPin className="w-4 h-4 text-red-600" />
+              <MapPin className="w-4 h-4 text-emerald-600" />
               <span>দূরত্ব: <strong>{route.distance_km} কিলোমিটার</strong></span>
             </div>
           )}
           {route.estimated_duration && (
             <div className="flex items-center gap-2">
-              <Clock className="w-4 h-4 text-red-600" />
+              <Clock className="w-4 h-4 text-emerald-600" />
               <span>আনুমানিক সময়: <strong>{route.estimated_duration}</strong></span>
             </div>
           )}
@@ -205,7 +205,7 @@ export default function RouteDetailPage() {
       {/* Available Buses and Schedules */}
       <div className="space-y-4">
         <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-          <Clock className="w-5 h-5 text-red-600" />
+          <Clock className="w-5 h-5 text-emerald-600" />
           <span>এই রুটের বাস ও সময়সূচি ({busSchedules.length})</span>
         </h2>
 
@@ -228,7 +228,7 @@ export default function RouteDetailPage() {
                   <tr key={item.id} className="hover:bg-slate-50/70">
                     <td className="py-3 px-4 font-bold text-slate-900">
                       {item.buses?.slug ? (
-                        <Link href={`/buses/${item.buses.slug}`} className="hover:text-red-700 underline">
+                        <Link href={`/buses/${item.buses.slug}`} className="hover:text-emerald-700 underline">
                           {item.buses?.name}
                         </Link>
                       ) : (
@@ -245,7 +245,7 @@ export default function RouteDetailPage() {
                         {item.buses?.is_ac ? 'AC' : 'Non-AC'}
                       </span>
                     </td>
-                    <td className="py-3 px-4 font-bold text-red-700">
+                    <td className="py-3 px-4 font-bold text-emerald-700">
                       {item.departure_time || 'নিয়মিত'}
                     </td>
                     <td className="py-3 px-4 text-slate-500">
@@ -257,7 +257,7 @@ export default function RouteDetailPage() {
                     <td className="py-3 px-4">
                       <Link
                         href={`/booking?type=bus&bus_id=${item.bus_id}`}
-                        className="px-3 py-1 bg-red-50 hover:bg-red-100 text-red-800 rounded-lg text-xs font-bold"
+                        className="px-3 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 rounded-lg text-xs font-bold"
                       >
                         বুকিং
                       </Link>
@@ -279,7 +279,7 @@ export default function RouteDetailPage() {
       {fares.length > 0 && (
         <div className="space-y-4">
           <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-            <DollarSign className="w-5 h-5 text-red-600" />
+            <DollarSign className="w-5 h-5 text-emerald-600" />
             <span>ভাড়ার বিবরণী</span>
           </h2>
           <div className="bg-white rounded-2xl border border-slate-200 overflow-x-auto shadow-xs">
@@ -306,7 +306,7 @@ export default function RouteDetailPage() {
                         {f.buses?.is_ac ? 'AC' : 'Non-AC'}
                       </span>
                     </td>
-                    <td className="py-3 px-4 font-black text-red-700">
+                    <td className="py-3 px-4 font-black text-emerald-700">
                       ৳ {f.fare}
                     </td>
                     <td className="py-3 px-4 text-slate-600">

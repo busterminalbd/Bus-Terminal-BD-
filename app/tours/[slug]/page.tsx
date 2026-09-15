@@ -79,7 +79,7 @@ export default function TourDetailPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <ErrorMessage message={error || 'ট্যুর প্যাকেজটি পাওয়া যায়নি।'} />
         <div className="text-center mt-4">
-          <Link href="/tours" className="inline-flex items-center gap-1.5 text-red-700 font-bold text-sm">
+          <Link href="/tours" className="inline-flex items-center gap-1.5 text-emerald-700 font-bold text-sm">
             <ArrowLeft className="w-4 h-4" />
             <span>ট্যুর তালিকায় ফিরে যান</span>
           </Link>
@@ -95,7 +95,7 @@ export default function TourDetailPage() {
       <div>
         <Link
           href="/tours"
-          className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-red-700 transition"
+          className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-emerald-700 transition"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>সকল ট্যুর প্যাকেজ</span>
@@ -117,7 +117,7 @@ export default function TourDetailPage() {
             <div className="space-y-2 max-w-3xl">
               <div className="flex flex-wrap items-center gap-2 text-xs font-bold">
                 {tour.destination && (
-                  <span className="bg-red-600/90 backdrop-blur-xs px-3 py-1 rounded-full flex items-center gap-1">
+                  <span className="bg-emerald-600/90 backdrop-blur-xs px-3 py-1 rounded-full flex items-center gap-1">
                     <MapPin className="w-3.5 h-3.5" />
                     <span>{tour.destination}</span>
                   </span>
@@ -145,7 +145,7 @@ export default function TourDetailPage() {
         <div className="p-6 sm:p-8 bg-slate-50 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <span className="text-xs text-slate-500 block">প্যাকেজ মূল্য (জনপ্রতি)</span>
-            <div className="text-3xl font-black text-red-700">
+            <div className="text-3xl font-black text-emerald-700">
               ৳ {tour.price}
             </div>
           </div>
@@ -153,7 +153,7 @@ export default function TourDetailPage() {
           <div className="flex flex-wrap items-center gap-3">
             <Link
               href={`/booking?type=tour&tour_package_id=${tour.id}&title=${encodeURIComponent(tour.title)}`}
-              className="px-6 py-3 bg-red-600 hover:bg-red-700 text-white text-xs sm:text-sm font-black rounded-xl shadow-md transition"
+              className="px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-black rounded-xl shadow-md transition"
             >
               বুকিং অনুরোধ পাঠান
             </Link>
@@ -162,7 +162,7 @@ export default function TourDetailPage() {
                 href={`tel:${tour.phone}`}
                 className="px-4 py-3 bg-white border border-slate-200 hover:bg-slate-100 text-slate-800 text-xs sm:text-sm font-bold rounded-xl transition inline-flex items-center gap-1.5"
               >
-                <Phone className="w-4 h-4 text-red-600" />
+                <Phone className="w-4 h-4 text-emerald-600" />
                 <span>{tour.phone}</span>
               </a>
             )}
@@ -186,12 +186,12 @@ export default function TourDetailPage() {
           {/* Included / Excluded */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {tour.included && (
-              <div className="p-5 bg-red-50/60 rounded-2xl border border-red-100 space-y-2">
-                <h3 className="text-sm font-bold text-red-900 flex items-center gap-2">
-                  <Check className="w-4 h-4 text-red-600" />
+              <div className="p-5 bg-emerald-50/60 rounded-2xl border border-emerald-100 space-y-2">
+                <h3 className="text-sm font-bold text-emerald-900 flex items-center gap-2">
+                  <Check className="w-4 h-4 text-emerald-600" />
                   <span>প্যাকেজে যা অন্তর্ভুক্ত</span>
                 </h3>
-                <p className="text-xs text-red-800 whitespace-pre-line leading-relaxed">
+                <p className="text-xs text-emerald-800 whitespace-pre-line leading-relaxed">
                   {tour.included}
                 </p>
               </div>

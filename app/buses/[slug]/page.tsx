@@ -272,7 +272,7 @@ export default function BusDetailPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <ErrorMessage message={error || 'বাসটি পাওয়া যায়নি।'} />
         <div className="text-center mt-4">
-          <Link href="/buses" className="inline-flex items-center gap-1.5 text-red-700 font-bold text-sm">
+          <Link href="/buses" className="inline-flex items-center gap-1.5 text-emerald-700 font-bold text-sm">
             <ArrowLeft className="w-4 h-4" />
             <span>বাস তালিকায় ফিরে যান</span>
           </Link>
@@ -289,7 +289,7 @@ export default function BusDetailPage() {
       <div>
         <Link
           href="/buses"
-          className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-red-700 transition"
+          className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-emerald-700 transition"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>সকল বাস তালিকা</span>
@@ -317,7 +317,7 @@ export default function BusDetailPage() {
               {operator && (
                 <Link
                   href={`/operators/${operator.slug || operator.id}`}
-                  className="text-xs font-bold text-red-600 hover:underline inline-flex items-center gap-1"
+                  className="text-xs font-bold text-emerald-600 hover:underline inline-flex items-center gap-1"
                 >
                   <Building2 className="w-3.5 h-3.5" />
                   <span>{operator.name}</span>
@@ -334,7 +334,7 @@ export default function BusDetailPage() {
                   {bus.is_ac ? 'এসি (AC)' : 'নন-এসি (Non-AC)'}
                 </span>
                 {bus.category && (
-                  <span className="px-3 py-1 rounded-full text-xs font-semibold bg-red-50 text-red-700">
+                  <span className="px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700">
                     {bus.category}
                   </span>
                 )}
@@ -363,7 +363,7 @@ export default function BusDetailPage() {
                 {bus.phone && (
                   <div className="p-3 bg-slate-50 rounded-xl">
                     <span className="text-slate-400 block text-[10px]">হেল্পলাইন</span>
-                    <span className="font-bold text-red-700 font-mono">{bus.phone}</span>
+                    <span className="font-bold text-emerald-700 font-mono">{bus.phone}</span>
                   </div>
                 )}
               </div>
@@ -373,7 +373,7 @@ export default function BusDetailPage() {
             <div className="pt-4 border-t border-slate-100 flex flex-wrap items-center gap-3">
               <Link
                 href={`/booking?type=bus&bus_id=${bus.id}&name=${encodeURIComponent(bus.name)}`}
-                className="px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white text-xs sm:text-sm font-bold rounded-xl shadow-md transition active:scale-95"
+                className="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-bold rounded-xl shadow-md transition active:scale-95"
               >
                 আসন বুকিং অনুরোধ পাঠান
               </Link>
@@ -382,7 +382,7 @@ export default function BusDetailPage() {
                   href={`tel:${bus.phone}`}
                   className="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs sm:text-sm font-semibold rounded-xl transition inline-flex items-center gap-1.5"
                 >
-                  <Phone className="w-4 h-4 text-red-600" />
+                  <Phone className="w-4 h-4 text-emerald-600" />
                   <span>কল করুন</span>
                 </a>
               )}
@@ -394,7 +394,7 @@ export default function BusDetailPage() {
       {/* Schedules (bus_routes) */}
       <div className="space-y-4">
         <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-          <Clock className="w-5 h-5 text-red-600" />
+          <Clock className="w-5 h-5 text-emerald-600" />
           <span>সময়সূচি ও রুটসমূহ</span>
         </h2>
 
@@ -417,7 +417,7 @@ export default function BusDetailPage() {
                     <td className="py-3 px-4 font-bold text-slate-900">
                       {item.routes?.from_district?.name || 'স্থান'} ➔ {item.routes?.to_district?.name || 'গন্তব্য'}
                     </td>
-                    <td className="py-3 px-4 font-semibold text-red-700">
+                    <td className="py-3 px-4 font-semibold text-emerald-700">
                       {item.departure_time || 'নির্ধারিত নয়'}
                     </td>
                     <td className="py-3 px-4 text-slate-600">
@@ -447,7 +447,7 @@ export default function BusDetailPage() {
       {/* Counters for this Bus */}
       <div className="space-y-4">
         <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-          <MapPin className="w-5 h-5 text-red-600" />
+          <MapPin className="w-5 h-5 text-emerald-600" />
           <span>কাউন্টার ও টিকিট বুথ</span>
         </h2>
 
@@ -458,7 +458,7 @@ export default function BusDetailPage() {
                 <div className="flex items-start justify-between">
                   <h3 className="text-sm font-bold text-slate-900">{c.counter_name}</h3>
                   {c.districts && (
-                    <span className="text-[11px] font-semibold text-red-700 bg-red-50 px-2 py-0.5 rounded-md">
+                    <span className="text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md">
                       {c.districts.name}
                     </span>
                   )}
@@ -467,7 +467,7 @@ export default function BusDetailPage() {
                   <p className="text-xs text-slate-600 leading-relaxed">{c.address}</p>
                 )}
                 {c.phone && (
-                  <div className="flex items-center gap-1 text-xs text-red-700 font-mono pt-1">
+                  <div className="flex items-center gap-1 text-xs text-emerald-700 font-mono pt-1">
                     <Phone className="w-3.5 h-3.5" />
                     <a href={`tel:${c.phone}`} className="hover:underline">{c.phone}</a>
                   </div>
@@ -496,7 +496,7 @@ export default function BusDetailPage() {
       {fares.length > 0 && (
         <div className="space-y-4">
           <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-            <DollarSign className="w-5 h-5 text-red-600" />
+            <DollarSign className="w-5 h-5 text-emerald-600" />
             <span>ভাড়ার তালিকা</span>
           </h2>
           <div className="bg-white rounded-2xl border border-slate-200 overflow-x-auto shadow-xs">
@@ -516,7 +516,7 @@ export default function BusDetailPage() {
                     <td className="py-3 px-4 font-bold text-slate-900">
                       {f.routes?.from_district?.name || 'স্থান'} ➔ {f.routes?.to_district?.name || 'গন্তব্য'}
                     </td>
-                    <td className="py-3 px-4 font-bold text-red-700">
+                    <td className="py-3 px-4 font-bold text-emerald-700">
                       ৳ {f.fare}
                     </td>
                     <td className="py-3 px-4 text-slate-600">

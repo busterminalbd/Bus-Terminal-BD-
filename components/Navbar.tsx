@@ -200,7 +200,7 @@ export default function Navbar() {
 
         {/* Drawer panel */}
         <div
-          className={`btbd-mobile-drawer absolute right-0 top-0 h-full w-[86%] max-w-sm bg-white shadow-2xl flex flex-col transition-transform duration-300 ${
+          className={`btbd-mobile-drawer absolute right-0 top-2 bottom-2 h-auto w-[86%] max-w-sm bg-white shadow-2xl flex flex-col transition-transform duration-300 ${
             mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
           }`}
         >

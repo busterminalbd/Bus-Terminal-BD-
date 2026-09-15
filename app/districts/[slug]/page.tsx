@@ -133,7 +133,7 @@ export default function DistrictDetailPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <ErrorMessage message={error || 'জেলাটি পাওয়া যায়নি।'} />
         <div className="text-center mt-4">
-          <Link href="/districts" className="inline-flex items-center gap-1.5 text-red-700 font-bold text-sm">
+          <Link href="/districts" className="inline-flex items-center gap-1.5 text-emerald-700 font-bold text-sm">
             <ArrowLeft className="w-4 h-4" />
             <span>জেলা তালিকায় ফিরে যান</span>
           </Link>
@@ -148,7 +148,7 @@ export default function DistrictDetailPage() {
       <div>
         <Link
           href="/districts"
-          className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-red-700 transition"
+          className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-emerald-700 transition"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>সকল জেলাসমূহ</span>
@@ -159,7 +159,7 @@ export default function DistrictDetailPage() {
       <div className="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-xs">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="space-y-1.5">
-            <div className="flex items-center gap-2 text-xs font-bold text-red-700">
+            <div className="flex items-center gap-2 text-xs font-bold text-emerald-700">
               <MapPin className="w-4 h-4" />
               <span>{district.division ? `${district.division} বিভাগ` : 'বাংলাদেশ'}</span>
             </div>
@@ -173,7 +173,7 @@ export default function DistrictDetailPage() {
 
           <Link
             href={`/booking?destination=${encodeURIComponent(district.name)}`}
-            className="px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm rounded-xl shadow-md transition"
+            className="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm rounded-xl shadow-md transition"
           >
             {district.name} এর জন্য বুকিং
           </Link>
@@ -184,7 +184,7 @@ export default function DistrictDetailPage() {
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-            <RouteIcon className="w-5 h-5 text-red-600" />
+            <RouteIcon className="w-5 h-5 text-emerald-600" />
             <span>{district.name} জেলার সংযুক্ত রুটসমূহ ({routes.length})</span>
           </h2>
         </div>
@@ -206,7 +206,7 @@ export default function DistrictDetailPage() {
       {/* Counters in this District */}
       <div className="space-y-4">
         <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-          <Building2 className="w-5 h-5 text-red-600" />
+          <Building2 className="w-5 h-5 text-emerald-600" />
           <span>{district.name} জেলার সকল বাস কাউন্টার ({counters.length})</span>
         </h2>
 
@@ -217,7 +217,7 @@ export default function DistrictDetailPage() {
                 <div className="flex items-start justify-between">
                   <h3 className="text-sm font-bold text-slate-900">{c.counter_name}</h3>
                   {c.buses && (
-                    <span className="text-[11px] font-semibold text-red-700 bg-red-50 px-2 py-0.5 rounded-md">
+                    <span className="text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md">
                       {c.buses.name}
                     </span>
                   )}
@@ -226,7 +226,7 @@ export default function DistrictDetailPage() {
                   <p className="text-xs text-slate-600 leading-relaxed">{c.address}</p>
                 )}
                 {c.phone && (
-                  <div className="flex items-center gap-1.5 text-xs text-red-700 font-mono pt-1">
+                  <div className="flex items-center gap-1.5 text-xs text-emerald-700 font-mono pt-1">
                     <Phone className="w-3.5 h-3.5" />
                     <a href={`tel:${c.phone}`} className="hover:underline">{c.phone}</a>
                   </div>

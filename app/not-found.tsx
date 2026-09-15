@@ -5,7 +5,7 @@ export default function NotFound() {
   return (
     <div className="min-h-[60vh] flex items-center justify-center px-4 py-16">
       <div className="text-center space-y-4 max-w-md">
-        <div className="w-16 h-16 bg-red-100 text-red-700 rounded-full flex items-center justify-center mx-auto">
+        <div className="w-16 h-16 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center mx-auto">
           <Bus className="w-8 h-8" />
         </div>
         <h1 className="text-4xl font-black text-slate-900">৪০৪</h1>
@@ -16,7 +16,7 @@ export default function NotFound() {
         <div className="pt-4 flex justify-center gap-3">
           <Link
             href="/"
-            className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-xl text-xs font-bold transition shadow-xs"
+            className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition shadow-xs"
           >
             <Home className="w-4 h-4" />
             <span>মূল পাতায় ফিরুন</span>

@@ -111,7 +111,7 @@ function RoutesContent() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8">
       {/* Header */}
       <div className="border-b border-slate-200 pb-6">
-        <div className="flex items-center gap-2 text-red-600 font-bold text-xs uppercase tracking-wider mb-1">
+        <div className="flex items-center gap-2 text-emerald-600 font-bold text-xs uppercase tracking-wider mb-1">
           <RouteIcon className="w-4 h-4" />
           <span>যোগাযোগ নেটওয়ার্ক</span>
         </div>
@@ -131,7 +131,7 @@ function RoutesContent() {
             <select
               value={fromFilter}
               onChange={(e) => setFromFilter(e.target.value)}
-              className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-red-500 focus:outline-hidden"
+              className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-emerald-500 focus:outline-hidden"
             >
               <option value="">সকল জেলা থেকে</option>
               {districts.map((d) => (
@@ -149,7 +149,7 @@ function RoutesContent() {
             <select
               value={toFilter}
               onChange={(e) => setToFilter(e.target.value)}
-              className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-red-500 focus:outline-hidden"
+              className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-emerald-500 focus:outline-hidden"
             >
               <option value="">সকল গন্তব্যে</option>
               {districts.map((d) => (

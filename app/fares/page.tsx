@@ -162,7 +162,7 @@ export default function FaresPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8">
       {/* Header */}
       <div className="border-b border-slate-200 pb-6">
-        <div className="flex items-center gap-2 text-red-600 font-bold text-xs uppercase tracking-wider mb-1">
+        <div className="flex items-center gap-2 text-emerald-600 font-bold text-xs uppercase tracking-wider mb-1">
           <DollarSign className="w-4 h-4" />
           <span>ভাড়ার তালিকা ও তথ্য</span>
         </div>
@@ -182,7 +182,7 @@ export default function FaresPage() {
             <select
               value={fromDistrictId}
               onChange={(e) => setFromDistrictId(e.target.value)}
-              className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-red-500 focus:outline-hidden"
+              className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-emerald-500 focus:outline-hidden"
             >
               <option value="">সকল জেলা</option>
               {districts.map((d) => (
@@ -200,7 +200,7 @@ export default function FaresPage() {
             <select
               value={toDistrictId}
               onChange={(e) => setToDistrictId(e.target.value)}
-              className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-red-500 focus:outline-hidden"
+              className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-emerald-500 focus:outline-hidden"
             >
               <option value="">সকল গন্তব্য</option>
               {districts.map((d) => (
@@ -218,7 +218,7 @@ export default function FaresPage() {
             <select
               value={selectedBusId}
               onChange={(e) => setSelectedBusId(e.target.value)}
-              className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-red-500 focus:outline-hidden"
+              className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-emerald-500 focus:outline-hidden"
             >
               <option value="">সকল বাস</option>
               {buses.map((b) => (
@@ -281,7 +281,7 @@ export default function FaresPage() {
                     <td className="py-3.5 px-4 font-bold text-slate-900">
                       <div className="flex items-center gap-1.5">
                         <span>{fromName}</span>
-                        <ArrowRight className="w-3.5 h-3.5 text-red-600 shrink-0" />
+                        <ArrowRight className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
                         <span>{toName}</span>
                       </div>
                     </td>
@@ -296,7 +296,7 @@ export default function FaresPage() {
                         {f.buses?.is_ac ? 'AC' : 'Non-AC'}
                       </span>
                     </td>
-                    <td className="py-3.5 px-4 font-black text-red-700 text-base">
+                    <td className="py-3.5 px-4 font-black text-emerald-700 text-base">
                       ৳ {f.fare}
                     </td>
                     <td className="py-3.5 px-4 text-slate-600">
@@ -311,7 +311,7 @@ export default function FaresPage() {
                     <td className="py-3.5 px-4 text-right">
                       <Link
                         href={`/booking?type=bus&bus_id=${f.bus_id}&from=${encodeURIComponent(fromName)}&to=${encodeURIComponent(toName)}`}
-                        className="px-3 py-1 bg-red-50 hover:bg-red-100 text-red-800 rounded-lg text-xs font-bold inline-block"
+                        className="px-3 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 rounded-lg text-xs font-bold inline-block"
                       >
                         বুকিং অনুরোধ
                       </Link>
