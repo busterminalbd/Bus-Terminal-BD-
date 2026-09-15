@@ -187,7 +187,7 @@ function BookingFormContent() {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'confirmed':
-        return <span className="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold">নিশ্চিত হয়েছে (Confirmed)</span>;
+        return <span className="px-2.5 py-1 rounded-full bg-red-100 text-red-800 text-xs font-bold">নিশ্চিত হয়েছে (Confirmed)</span>;
       case 'cancelled':
         return <span className="px-2.5 py-1 rounded-full bg-rose-100 text-rose-800 text-xs font-bold">বাতিল হয়েছে (Cancelled)</span>;
       default:
@@ -199,7 +199,7 @@ function BookingFormContent() {
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8">
       {/* Header */}
       <div className="text-center space-y-2">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-100 text-red-800 text-xs font-bold">
           <Calendar className="w-3.5 h-3.5" />
           <span>অনলাইন বুকিং পোর্টাল</span>
         </div>
@@ -217,7 +217,7 @@ function BookingFormContent() {
               type="button"
               onClick={() => setActiveTab('create')}
               className={`px-5 py-2 rounded-lg text-xs font-bold transition ${
-                activeTab === 'create' ? 'bg-white text-emerald-800 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                activeTab === 'create' ? 'bg-white text-red-800 shadow-xs' : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               নতুন বুকিং করুন
@@ -226,7 +226,7 @@ function BookingFormContent() {
               type="button"
               onClick={() => setActiveTab('status')}
               className={`px-5 py-2 rounded-lg text-xs font-bold transition ${
-                activeTab === 'status' ? 'bg-white text-emerald-800 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                activeTab === 'status' ? 'bg-white text-red-800 shadow-xs' : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               বুকিং স্ট্যাটাস চেক করুন
@@ -248,12 +248,12 @@ function BookingFormContent() {
                 placeholder="উদাহরণ: 01712345678"
                 value={searchPhone}
                 onChange={(e) => setSearchPhone(e.target.value)}
-                className="flex-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-hidden font-mono"
+                className="flex-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-red-500 focus:outline-hidden font-mono"
               />
               <button
                 type="submit"
                 disabled={checkingStatus}
-                className="px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm rounded-xl shadow-xs transition"
+                className="px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm rounded-xl shadow-xs transition"
               >
                 {checkingStatus ? 'যাচাই করা হচ্ছে...' : 'খুঁজুন'}
               </button>
@@ -307,8 +307,8 @@ function BookingFormContent() {
         </div>
       ) : submitSuccess ? (
         /* Success Screen */
-        <div className="bg-white rounded-3xl border border-emerald-200 p-8 sm:p-12 text-center shadow-xs space-y-4">
-          <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto">
+        <div className="bg-white rounded-3xl border border-red-200 p-8 sm:p-12 text-center shadow-xs space-y-4">
+          <div className="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto">
             <CheckCircle2 className="w-8 h-8" />
           </div>
           <h2 className="text-2xl font-black text-slate-900">
@@ -328,7 +328,7 @@ function BookingFormContent() {
                 setJourneyDate('');
                 setNotes('');
               }}
-              className="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-xs transition"
+              className="px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-xl shadow-xs transition"
             >
               আরেকটি বুকিং করুন
             </button>
@@ -367,7 +367,7 @@ function BookingFormContent() {
                   onClick={() => setBookingType('bus')}
                   className={`p-3 rounded-xl border flex flex-col items-center justify-center gap-1 transition ${
                     bookingType === 'bus'
-                      ? 'border-emerald-600 bg-emerald-50/60 text-emerald-800 font-bold shadow-2xs'
+                      ? 'border-red-600 bg-red-50/60 text-red-800 font-bold shadow-2xs'
                       : 'border-slate-200 text-slate-600 hover:bg-slate-50'
                   }`}
                 >
@@ -379,7 +379,7 @@ function BookingFormContent() {
                   onClick={() => setBookingType('mini_coach')}
                   className={`p-3 rounded-xl border flex flex-col items-center justify-center gap-1 transition ${
                     bookingType === 'mini_coach'
-                      ? 'border-emerald-600 bg-emerald-50/60 text-emerald-800 font-bold shadow-2xs'
+                      ? 'border-red-600 bg-red-50/60 text-red-800 font-bold shadow-2xs'
                       : 'border-slate-200 text-slate-600 hover:bg-slate-50'
                   }`}
                 >
@@ -391,7 +391,7 @@ function BookingFormContent() {
                   onClick={() => setBookingType('tour_package')}
                   className={`p-3 rounded-xl border flex flex-col items-center justify-center gap-1 transition ${
                     bookingType === 'tour_package'
-                      ? 'border-emerald-600 bg-emerald-50/60 text-emerald-800 font-bold shadow-2xs'
+                      ? 'border-red-600 bg-red-50/60 text-red-800 font-bold shadow-2xs'
                       : 'border-slate-200 text-slate-600 hover:bg-slate-50'
                   }`}
                 >
@@ -410,7 +410,7 @@ function BookingFormContent() {
                 <select
                   value={busId}
                   onChange={(e) => setBusId(e.target.value)}
-                  className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-emerald-500 focus:outline-hidden"
+                  className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-red-500 focus:outline-hidden"
                 >
                   <option value="">কোনো নির্দিষ্ট বাস নেই (পরবর্তীতে নির্ধারিত হবে)</option>
                   {buses.map((b) => (
@@ -430,7 +430,7 @@ function BookingFormContent() {
                 <select
                   value={miniCoachId}
                   onChange={(e) => setMiniCoachId(e.target.value)}
-                  className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-emerald-500 focus:outline-hidden"
+                  className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-red-500 focus:outline-hidden"
                 >
                   <option value="">উপলব্ধ যেকোনো মিনি কোচ</option>
                   {miniCoaches.map((m) => (
@@ -450,7 +450,7 @@ function BookingFormContent() {
                 <select
                   value={tourPackageId}
                   onChange={(e) => setTourPackageId(e.target.value)}
-                  className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-emerald-500 focus:outline-hidden"
+                  className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-red-500 focus:outline-hidden"
                 >
                   <option value="">প্যাকেজ নির্বাচন করুন</option>
                   {tours.map((t) => (
@@ -476,7 +476,7 @@ function BookingFormContent() {
                     placeholder="পুরো নাম"
                     value={userName}
                     onChange={(e) => setUserName(e.target.value)}
-                    className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-hidden"
+                    className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-red-500 focus:outline-hidden"
                   />
                 </div>
               </div>
@@ -493,7 +493,7 @@ function BookingFormContent() {
                     placeholder="01XXXXXXXXX"
                     value={userPhone}
                     onChange={(e) => setUserPhone(e.target.value)}
-                    className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono focus:ring-2 focus:ring-emerald-500 focus:outline-hidden"
+                    className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono focus:ring-2 focus:ring-red-500 focus:outline-hidden"
                   />
                 </div>
               </div>
@@ -509,7 +509,7 @@ function BookingFormContent() {
                     placeholder="yourname@gmail.com"
                     value={userEmail}
                     onChange={(e) => setUserEmail(e.target.value)}
-                    className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-hidden"
+                    className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-red-500 focus:outline-hidden"
                   />
                 </div>
               </div>
@@ -525,7 +525,7 @@ function BookingFormContent() {
                     required
                     value={journeyDate}
                     onChange={(e) => setJourneyDate(e.target.value)}
-                    className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-hidden"
+                    className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-red-500 focus:outline-hidden"
                   />
                 </div>
               </div>
@@ -545,7 +545,7 @@ function BookingFormContent() {
                     max={50}
                     value={seatCount}
                     onChange={(e) => setSeatCount(parseInt(e.target.value) || 1)}
-                    className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-hidden"
+                    className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-red-500 focus:outline-hidden"
                   />
                 </div>
               </div>
@@ -561,7 +561,7 @@ function BookingFormContent() {
                     placeholder="কোথা থেকে উঠবেন"
                     value={pickupLocation}
                     onChange={(e) => setPickupLocation(e.target.value)}
-                    className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-hidden"
+                    className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-red-500 focus:outline-hidden"
                   />
                 </div>
               </div>
@@ -577,7 +577,7 @@ function BookingFormContent() {
                     placeholder="কোথায় নামবেন"
                     value={dropoffLocation}
                     onChange={(e) => setDropoffLocation(e.target.value)}
-                    className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-hidden"
+                    className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-red-500 focus:outline-hidden"
                   />
                 </div>
               </div>
@@ -593,7 +593,7 @@ function BookingFormContent() {
                 placeholder="যেমন: সামনের সারির আসন দরকার, বা কোনো নির্দিষ্ট সময়সূচি..."
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
-                className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-hidden resize-none"
+                className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-red-500 focus:outline-hidden resize-none"
               />
             </div>
 
@@ -602,7 +602,7 @@ function BookingFormContent() {
               <button
                 type="submit"
                 disabled={submitting}
-                className="w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-sm rounded-xl shadow-md transition disabled:opacity-50"
+                className="w-full py-3.5 bg-red-600 hover:bg-red-700 text-white font-black text-sm rounded-xl shadow-md transition disabled:opacity-50"
               >
                 {submitting ? 'অনুরোধ পাঠানো হচ্ছে...' : 'বুকিং অনুরোধ জমা দিন'}
               </button>

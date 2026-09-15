@@ -87,7 +87,7 @@ export default function CountersPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8">
       {/* Header */}
       <div className="border-b border-slate-200 pb-6">
-        <div className="flex items-center gap-2 text-emerald-600 font-bold text-xs uppercase tracking-wider mb-1">
+        <div className="flex items-center gap-2 text-red-600 font-bold text-xs uppercase tracking-wider mb-1">
           <MapPin className="w-4 h-4" />
           <span>টিকিট ও স্টেশন</span>
         </div>
@@ -107,7 +107,7 @@ export default function CountersPage() {
               placeholder="কাউন্টার নাম বা এলাকা..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-hidden"
+              className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-red-500 focus:outline-hidden"
             />
           </div>
 
@@ -115,7 +115,7 @@ export default function CountersPage() {
             <select
               value={selectedDistrictId}
               onChange={(e) => setSelectedDistrictId(e.target.value)}
-              className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-emerald-500 focus:outline-hidden"
+              className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-red-500 focus:outline-hidden"
             >
               <option value="">সকল জেলা</option>
               {districts.map((d) => (
@@ -137,7 +137,7 @@ export default function CountersPage() {
                   setSelectedDistrictId('');
                   setSearchQuery('');
                 }}
-                className="text-xs font-bold text-emerald-700 hover:underline"
+                className="text-xs font-bold text-red-700 hover:underline"
               >
                 রিসেট
               </button>
@@ -174,7 +174,7 @@ export default function CountersPage() {
                       {c.counter_name}
                     </h3>
                     {c.buses && (
-                      <p className="text-xs font-semibold text-emerald-600 mt-0.5">
+                      <p className="text-xs font-semibold text-red-600 mt-0.5">
                         {c.buses.name} {c.buses.bus_operators?.name ? `(${c.buses.bus_operators.name})` : ''}
                       </p>
                     )}
@@ -205,7 +205,7 @@ export default function CountersPage() {
                   {c.phone && (
                     <a
                       href={`tel:${c.phone}`}
-                      className="flex items-center gap-1 text-emerald-700 font-bold hover:underline"
+                      className="flex items-center gap-1 text-red-700 font-bold hover:underline"
                     >
                       <Phone className="w-3.5 h-3.5" />
                       <span>{c.phone}</span>

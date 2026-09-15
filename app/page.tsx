@@ -17,6 +17,7 @@ import {
   Compass, 
   Car, 
   ChevronRight, 
+  ChevronDown,
   ArrowRight,
   CheckCircle2,
   Sparkles
@@ -175,117 +176,144 @@ export default function HomePage() {
       <ConfigAlert />
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-emerald-950 via-slate-900 to-slate-950 text-white pt-12 pb-24 sm:pt-20 sm:pb-32 px-4 sm:px-6 lg:px-8">
-        {/* Subtle decorative background glow */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(16,185,129,0.15),transparent_50%)] pointer-events-none" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(6,95,70,0.2),transparent_50%)] pointer-events-none" />
+      <section className="relative overflow-hidden bg-gradient-to-b from-red-50 via-rose-50/60 to-white pt-10 pb-16 sm:pt-16 sm:pb-24 px-4 sm:px-6 lg:px-8">
+        {/* Decorative skyline strip */}
+        <div className="absolute inset-x-0 bottom-0 h-24 sm:h-32 opacity-70 pointer-events-none" aria-hidden="true">
+          <svg viewBox="0 0 1200 160" preserveAspectRatio="none" className="w-full h-full">
+            <path d="M0 160 V90 h30 V60 h20 V90 h40 V40 h20 V90 h50 V70 h30 V90 h60 V50 h20 V90 h70 V30 h25 V90 h55 V65 h35 V90 h60 V45 h20 V90 h80 V75 h30 V90 h90 V55 h20 V90 h70 V35 h25 V90 h60 V90 H0Z" fill="#EF4444" fillOpacity="0.08" />
+          </svg>
+        </div>
 
-        <div className="relative max-w-5xl mx-auto text-center space-y-6">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs sm:text-sm font-medium">
-            <Sparkles className="w-4 h-4 text-emerald-400" />
+        <div className="relative max-w-5xl mx-auto text-center space-y-5">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-red-200 text-red-600 text-xs sm:text-sm font-semibold shadow-xs">
+            <Sparkles className="w-4 h-4 text-red-500" />
             <span>লাইভ বাস ডাটাবেস ও অনলাইন বুকিং সিস্টেম</span>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-tight">
-            BUS TERMINAL <span className="text-emerald-400">BD</span>
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-900 leading-tight">
+            আপনার <span className="text-red-600">পারফেক্ট যাত্রা</span> খুঁজুন
           </h1>
 
-          <p className="text-base sm:text-xl text-slate-300 max-w-2xl mx-auto font-normal leading-relaxed">
-            &quot;বাংলাদেশের বাস ও ভ্রমণ তথ্যের সহজ ঠিকানা&quot;
+          <p className="text-sm sm:text-lg text-slate-500 max-w-2xl mx-auto font-normal leading-relaxed">
+            &quot;বাংলাদেশের বাস ও ভ্রমণ তথ্যের সহজ ঠিকানা&quot; — অনলাইনে বাস খুঁজুন এবং বুকিং করুন
           </p>
 
           {/* Search Box */}
-          <div className="pt-4 max-w-4xl mx-auto text-left">
-            <form 
+          <div className="pt-2 max-w-3xl mx-auto text-left">
+            <form
               onSubmit={handleSearch}
-              className="bg-white p-4 sm:p-6 rounded-2xl sm:rounded-3xl shadow-2xl shadow-black/40 text-slate-900 grid grid-cols-1 sm:grid-cols-12 gap-3 sm:gap-4 items-end border border-slate-100"
+              className="bg-white p-4 sm:p-6 rounded-3xl shadow-xl shadow-red-900/5 text-slate-900 border-2 border-red-500 space-y-4"
             >
               {/* From */}
-              <div className="sm:col-span-4 space-y-1.5">
-                <label className="block text-xs font-bold text-slate-700 flex items-center gap-1.5">
-                  <MapPin className="w-3.5 h-3.5 text-emerald-600" />
-                  <span>কোথা থেকে (যাত্রার স্থান)</span>
-                </label>
+              <div className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
+                <MapPin className="w-5 h-5 text-red-600 shrink-0" />
                 <select
                   value={fromDistrictId}
                   onChange={(e) => setFromDistrictId(e.target.value)}
-                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:ring-2 focus:ring-emerald-500 focus:outline-hidden"
+                  className="w-full bg-transparent text-sm font-medium focus:outline-hidden"
                 >
-                  <option value="">জেলা নির্বাচন করুন</option>
+                  <option value="">কোথা থেকে (Select From)</option>
                   {districts.map((d) => (
                     <option key={d.id} value={d.id}>
                       {d.name} {d.division ? `(${d.division})` : ''}
                     </option>
                   ))}
                 </select>
+                <ChevronDown className="w-4 h-4 text-slate-400 shrink-0" />
               </div>
 
               {/* To */}
-              <div className="sm:col-span-4 space-y-1.5">
-                <label className="block text-xs font-bold text-slate-700 flex items-center gap-1.5">
-                  <MapPin className="w-3.5 h-3.5 text-rose-500" />
-                  <span>কোথায় যাবেন (গন্তব্য)</span>
-                </label>
+              <div className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
+                <RouteIcon className="w-5 h-5 text-red-600 shrink-0" />
                 <select
                   value={toDistrictId}
                   onChange={(e) => setToDistrictId(e.target.value)}
-                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:ring-2 focus:ring-emerald-500 focus:outline-hidden"
+                  className="w-full bg-transparent text-sm font-medium focus:outline-hidden"
                 >
-                  <option value="">গন্তব্য জেলা নির্বাচন করুন</option>
+                  <option value="">কোথায় যাবেন (Select To)</option>
                   {districts.map((d) => (
                     <option key={d.id} value={d.id}>
                       {d.name} {d.division ? `(${d.division})` : ''}
                     </option>
                   ))}
                 </select>
+                <ChevronDown className="w-4 h-4 text-slate-400 shrink-0" />
               </div>
 
               {/* Date */}
-              <div className="sm:col-span-2 space-y-1.5">
-                <label className="block text-xs font-bold text-slate-700 flex items-center gap-1.5">
-                  <Calendar className="w-3.5 h-3.5 text-slate-500" />
-                  <span>যাত্রার তারিখ</span>
-                </label>
+              <div className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
+                <Calendar className="w-5 h-5 text-red-600 shrink-0" />
                 <input
                   type="date"
                   value={travelDate}
                   onChange={(e) => setTravelDate(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-hidden"
+                  className="w-full bg-transparent text-sm font-medium focus:outline-hidden"
                 />
               </div>
 
               {/* Submit Button */}
-              <div className="sm:col-span-2">
-                <button
-                  type="submit"
-                  className="w-full h-[42px] flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-sm shadow-md transition-all active:scale-95"
-                >
-                  <Search className="w-4 h-4" />
-                  <span>খুঁজুন</span>
-                </button>
-              </div>
+              <button
+                type="submit"
+                className="w-full h-12 flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold rounded-2xl text-sm uppercase tracking-wide shadow-md shadow-red-600/30 transition-all active:scale-[0.98]"
+              >
+                <Search className="w-4 h-4" />
+                <span>Search</span>
+              </button>
             </form>
 
             {/* Quick Suggestions */}
             <div className="flex flex-wrap items-center justify-center gap-2 pt-4 text-xs text-slate-400">
-              <span className="font-semibold text-slate-300">জনপ্রিয় রুট:</span>
-              <Link href="/routes" className="hover:text-emerald-400 underline underline-offset-4">
+              <span className="font-semibold text-slate-500">জনপ্রিয় রুট:</span>
+              <Link href="/routes" className="hover:text-red-600 underline underline-offset-4">
                 ঢাকা ➔ চট্টগ্রাম
               </Link>
               <span>•</span>
-              <Link href="/routes" className="hover:text-emerald-400 underline underline-offset-4">
+              <Link href="/routes" className="hover:text-red-600 underline underline-offset-4">
                 ঢাকা ➔ কক্সবাজার
               </Link>
               <span>•</span>
-              <Link href="/routes" className="hover:text-emerald-400 underline underline-offset-4">
+              <Link href="/routes" className="hover:text-red-600 underline underline-offset-4">
                 ঢাকা ➔ সিলেট
               </Link>
               <span>•</span>
-              <Link href="/routes" className="hover:text-emerald-400 underline underline-offset-4">
+              <Link href="/routes" className="hover:text-red-600 underline underline-offset-4">
                 ঢাকা ➔ রাজশাহী
               </Link>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* 3-step process */}
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6 sm:-mt-10">
+        <div className="text-center mb-10">
+          <h2 className="text-2xl sm:text-3xl font-black text-slate-900">
+            মাত্র <span className="text-red-600">৩ ধাপে</span> বুকিং করুন
+          </h2>
+          <p className="text-sm text-slate-500 mt-2 max-w-md mx-auto">
+            সহজ ও দ্রুত পদ্ধতিতে আপনার যাত্রার বাস খুঁজে বুকিং অনুরোধ পাঠান
+          </p>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8">
+          {[
+            { icon: Search, title: 'বাস খুঁজুন', desc: 'যাত্রার স্থান, গন্তব্য ও তারিখ দিয়ে উপযুক্ত বাস খুঁজে বের করুন।' },
+            { icon: Bus, title: 'বাস নির্বাচন করুন', desc: 'সময়সূচি, ভাড়া ও সুবিধা দেখে পছন্দের বাস বেছে নিন।' },
+            { icon: CheckCircle2, title: 'বুকিং অনুরোধ পাঠান', desc: 'নাম ও ফোন নম্বর দিয়ে অনুরোধ পাঠান, আমরা যোগাযোগ করব।' },
+          ].map((step, i) => {
+            const StepIcon = step.icon;
+            return (
+              <div key={i} className="text-center">
+                <div className="relative w-20 h-20 mx-auto rounded-full bg-red-50 border border-red-100 flex items-center justify-center">
+                  <StepIcon className="w-8 h-8 text-red-600" />
+                  <span className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-red-600 text-white text-xs font-bold flex items-center justify-center">
+                    {i + 1}
+                  </span>
+                </div>
+                <h3 className="mt-4 text-base font-bold text-slate-900">{step.title}</h3>
+                <p className="mt-1.5 text-xs text-slate-500 leading-relaxed max-w-[220px] mx-auto">{step.desc}</p>
+              </div>
+            );
+          })}
         </div>
       </section>
 
@@ -298,7 +326,7 @@ export default function HomePage() {
           </div>
           <Link
             href="/routes"
-            className="text-xs sm:text-sm font-bold text-emerald-700 hover:text-emerald-800 inline-flex items-center gap-1"
+            className="text-xs sm:text-sm font-bold text-red-700 hover:text-red-800 inline-flex items-center gap-1"
           >
             <span>সব রুট দেখুন</span>
             <ChevronRight className="w-4 h-4" />
@@ -327,7 +355,7 @@ export default function HomePage() {
           </div>
           <Link
             href="/operators"
-            className="text-xs sm:text-sm font-bold text-emerald-700 hover:text-emerald-800 inline-flex items-center gap-1"
+            className="text-xs sm:text-sm font-bold text-red-700 hover:text-red-800 inline-flex items-center gap-1"
           >
             <span>সকল অপারেটর</span>
             <ChevronRight className="w-4 h-4" />
@@ -356,7 +384,7 @@ export default function HomePage() {
           </div>
           <Link
             href="/buses"
-            className="text-xs sm:text-sm font-bold text-emerald-700 hover:text-emerald-800 inline-flex items-center gap-1"
+            className="text-xs sm:text-sm font-bold text-red-700 hover:text-red-800 inline-flex items-center gap-1"
           >
             <span>সকল বাস দেখুন</span>
             <ChevronRight className="w-4 h-4" />
@@ -377,17 +405,17 @@ export default function HomePage() {
       </section>
 
       {/* Section 4: Mini Coach Rental */}
-      <section className="bg-emerald-900/5 py-12 border-y border-emerald-100">
+      <section className="bg-red-900/5 py-12 border-y border-red-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between mb-8">
             <div>
-              <span className="text-xs font-bold text-emerald-700 uppercase tracking-wider">রেন্টাল সেবা</span>
+              <span className="text-xs font-bold text-red-700 uppercase tracking-wider">রেন্টাল সেবা</span>
               <h2 className="text-2xl sm:text-3xl font-black text-slate-900 mt-1">মিনি কোচ ও মাইক্রোবাস ভাড়া</h2>
               <p className="text-sm text-slate-500 mt-0.5">পারিবারিক বা অফিস ট্যুরের জন্য সুবিধাজনক বাহন</p>
             </div>
             <Link
               href="/mini-coaches"
-              className="text-xs sm:text-sm font-bold text-emerald-700 hover:text-emerald-800 inline-flex items-center gap-1"
+              className="text-xs sm:text-sm font-bold text-red-700 hover:text-red-800 inline-flex items-center gap-1"
             >
               <span>সকল মিনি কোচ</span>
               <ChevronRight className="w-4 h-4" />
@@ -412,13 +440,13 @@ export default function HomePage() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <span className="text-xs font-bold text-emerald-700 uppercase tracking-wider">ভ্রমণ ও পর্যটন</span>
+            <span className="text-xs font-bold text-red-700 uppercase tracking-wider">ভ্রমণ ও পর্যটন</span>
             <h2 className="text-2xl sm:text-3xl font-black text-slate-900 mt-1">ট্যুর প্যাকেজ</h2>
             <p className="text-sm text-slate-500 mt-0.5">কক্সবাজার, সাজেক, সুন্দরবন সহ সব জনপ্রিয় পর্যটন স্পট</p>
           </div>
           <Link
             href="/tours"
-            className="text-xs sm:text-sm font-bold text-emerald-700 hover:text-emerald-800 inline-flex items-center gap-1"
+            className="text-xs sm:text-sm font-bold text-red-700 hover:text-red-800 inline-flex items-center gap-1"
           >
             <span>সকল প্যাকেজ</span>
             <ChevronRight className="w-4 h-4" />
@@ -440,74 +468,52 @@ export default function HomePage() {
 
       {/* Section 6: Why Bus Terminal BD */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-gradient-to-br from-slate-900 to-emerald-950 rounded-3xl p-8 sm:p-12 text-white shadow-xl">
-          <div className="max-w-2xl mb-10">
-            <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-white mb-2">
-              কেন বাস টার্মিনাল বিডি ব্যবহার করবেন?
-            </h2>
-            <p className="text-sm text-slate-300 leading-relaxed">
-              যাত্রীদের হয়রানিমুক্ত সেবা এবং সঠিক তথ্য নিশ্চিত করতে আমরা প্রতিশ্রুতিবদ্ধ।
-            </p>
-          </div>
+        <div className="text-center max-w-2xl mx-auto mb-10">
+          <span className="text-xs font-bold text-red-600 uppercase tracking-wider">আমাদের সুবিধা</span>
+          <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 mt-1">
+            কেন বাস টার্মিনাল বিডি ব্যবহার করবেন?
+          </h2>
+          <p className="text-sm text-slate-500 mt-2 leading-relaxed">
+            যাত্রীদের হয়রানিমুক্ত সেবা এবং সঠিক তথ্য নিশ্চিত করতে আমরা প্রতিশ্রুতিবদ্ধ।
+          </p>
+        </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-3">
-              <div className="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
-                <ShieldCheck className="w-6 h-6" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {[
+            { icon: ShieldCheck, title: 'নির্ভরযোগ্য তথ্য', desc: 'অপারেটরদের অনুমোদিত সঠিক তথ্য ও কাউন্টার লোকেশন সরাসরি সরবরাহ করা হয়।' },
+            { icon: Clock, title: 'রিয়েল-টাইম আপডেট', desc: 'Android Admin App থেকে নিয়মিত হালনাগাদকৃত ভাড়া ও সময়সূচি দেখা যায়।' },
+            { icon: RouteIcon, title: 'সমগ্র বাংলাদেশ', desc: '৬৪ জেলার আন্তঃজেলা এবং আঞ্চলিক সকল রুটের সংযোগ ও কাউন্টার ঠিকানা।' },
+            { icon: PhoneCall, title: 'সহজ যোগাযোগ', desc: 'সরাসরি কাউন্টারে ফোন করুন অথবা অনলাইনে বুকিং অনুরোধ পাঠিয়ে আসন নিশ্চিত করুন।' },
+          ].map((item, i) => {
+            const ItemIcon = item.icon;
+            return (
+              <div key={i} className="bg-white border border-slate-200/80 rounded-2xl p-6 text-center shadow-xs hover:shadow-md transition-shadow">
+                <div className="w-16 h-16 mx-auto rounded-full bg-red-50 text-red-600 flex items-center justify-center">
+                  <ItemIcon className="w-7 h-7" />
+                </div>
+                <h3 className="mt-4 text-base font-bold text-slate-900">{item.title}</h3>
+                <div className="w-10 h-0.5 bg-slate-200 mx-auto my-3" />
+                <p className="text-xs text-slate-500 leading-relaxed">{item.desc}</p>
               </div>
-              <h3 className="text-base font-bold text-white">নির্ভরযোগ্য তথ্য</h3>
-              <p className="text-xs text-slate-300 leading-relaxed">
-                অপারেটরদের অনুমোদিত সঠিক তথ্য ও কাউন্টার লোকেশন সরাসরি সরবরাহ করা হয়।
-              </p>
-            </div>
-
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-3">
-              <div className="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
-                <Clock className="w-6 h-6" />
-              </div>
-              <h3 className="text-base font-bold text-white">রিয়েল-টাইম আপডেট</h3>
-              <p className="text-xs text-slate-300 leading-relaxed">
-                Android Admin App থেকে নিয়মিত হালনাগাদকৃত ভাড়া ও সময়সূচি দেখা যায়।
-              </p>
-            </div>
-
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-3">
-              <div className="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
-                <RouteIcon className="w-6 h-6" />
-              </div>
-              <h3 className="text-base font-bold text-white">সমগ্র বাংলাদেশ</h3>
-              <p className="text-xs text-slate-300 leading-relaxed">
-                ৬৪ জেলার আন্তঃজেলা এবং আঞ্চলিক সকল রুটের সংযোগ ও কাউন্টার ঠিকানা।
-              </p>
-            </div>
-
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-3">
-              <div className="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
-                <PhoneCall className="w-6 h-6" />
-              </div>
-              <h3 className="text-base font-bold text-white">সহজ যোগাযোগ</h3>
-              <p className="text-xs text-slate-300 leading-relaxed">
-                সরাসরি কাউন্টারে ফোন করুন অথবা অনলাইনে বুকিং অনুরোধ পাঠিয়ে আসন নিশ্চিত করুন।
-              </p>
-            </div>
-          </div>
+            );
+          })}
         </div>
       </section>
 
       {/* Section 7: Booking CTA */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-emerald-600 rounded-3xl p-8 sm:p-12 text-white flex flex-col md:flex-row items-center justify-between gap-8 shadow-lg shadow-emerald-700/20">
+        <div className="bg-red-600 rounded-3xl p-8 sm:p-12 text-white flex flex-col md:flex-row items-center justify-between gap-8 shadow-lg shadow-red-700/20">
           <div className="max-w-xl space-y-3 text-center md:text-left">
             <h2 className="text-2xl sm:text-3xl font-black">
               বাস, মিনি কোচ বা ট্যুর বুকিং করতে চান?
             </h2>
-            <p className="text-sm text-emerald-100 leading-relaxed">
+            <p className="text-sm text-red-100 leading-relaxed">
               কোনো অ্যাকাউন্ট খোলার ঝামেলা নেই! শুধুমাত্র নাম ও মোবাইল নম্বর দিয়ে মুহূর্তেই অনুরোধ পাঠিয়ে দিন।
             </p>
           </div>
           <Link
             href="/booking"
-            className="px-8 py-3.5 bg-white text-emerald-900 hover:bg-emerald-50 font-black rounded-2xl text-sm shadow-md transition-all active:scale-95 shrink-0"
+            className="px-8 py-3.5 bg-white text-red-900 hover:bg-red-50 font-black rounded-2xl text-sm shadow-md transition-all active:scale-95 shrink-0"
           >
             অনলাইন বুকিং ফর্ম
           </Link>
@@ -519,7 +525,7 @@ export default function HomePage() {
         <div className="bg-white rounded-3xl border border-slate-200 p-8 sm:p-10 shadow-xs">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             <div>
-              <span className="text-xs font-bold text-emerald-700 uppercase tracking-wider">সহায়তা কেন্দ্র</span>
+              <span className="text-xs font-bold text-red-700 uppercase tracking-wider">সহায়তা কেন্দ্র</span>
               <h2 className="text-2xl sm:text-3xl font-black text-slate-900 mt-1">
                 আপনার কোনো জিজ্ঞাসা আছে?
               </h2>
@@ -529,13 +535,13 @@ export default function HomePage() {
 
               <div className="mt-6 space-y-3 text-sm text-slate-700">
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-lg bg-red-50 text-red-700 flex items-center justify-center">
                     <CheckCircle2 className="w-4 h-4" />
                   </div>
                   <span>ভেরিফায়েড কাউন্টার ও এজেন্টদের অফিসিয়াল যোগাযোগ নম্বর</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-lg bg-red-50 text-red-700 flex items-center justify-center">
                     <CheckCircle2 className="w-4 h-4" />
                   </div>
                   <span>লাইভ ডাটাবেস ভিত্তিক সঠিক ভাড়া ও শিডিউল নিশ্চিতকরণ</span>
@@ -561,7 +567,7 @@ export default function HomePage() {
               <div className="pt-2">
                 <Link
                   href="/counters"
-                  className="text-xs font-bold text-emerald-700 hover:text-emerald-800 flex items-center gap-1"
+                  className="text-xs font-bold text-red-700 hover:text-red-800 flex items-center gap-1"
                 >
                   <span>নিকটস্থ বাস কাউন্টার খুঁজুন</span>
                   <ChevronRight className="w-3.5 h-3.5" />

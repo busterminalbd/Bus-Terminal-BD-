@@ -66,7 +66,7 @@ export default function MiniCoachesPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8">
       {/* Header */}
       <div className="border-b border-slate-200 pb-6">
-        <div className="flex items-center gap-2 text-emerald-600 font-bold text-xs uppercase tracking-wider mb-1">
+        <div className="flex items-center gap-2 text-red-600 font-bold text-xs uppercase tracking-wider mb-1">
           <Car className="w-4 h-4" />
           <span>রেন্ট-এ-কার ও মিনি কোচ</span>
         </div>
@@ -86,7 +86,7 @@ export default function MiniCoachesPage() {
               placeholder="গাড়ির নাম বা ধরন দিয়ে খুঁজুন..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-hidden"
+              className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-red-500 focus:outline-hidden"
             />
           </div>
 
@@ -94,7 +94,7 @@ export default function MiniCoachesPage() {
             <select
               value={acFilter}
               onChange={(e) => setAcFilter(e.target.value as 'all' | 'ac' | 'non-ac')}
-              className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-emerald-500 focus:outline-hidden"
+              className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-red-500 focus:outline-hidden"
             >
               <option value="all">এসি ও নন-এসি উভয়</option>
               <option value="ac">শুধুমাত্র এসি</option>
@@ -105,7 +105,7 @@ export default function MiniCoachesPage() {
           <div className="flex items-center justify-end">
             <Link
               href="/booking?type=mini_coach"
-              className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold shadow-xs transition"
+              className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl text-xs font-bold shadow-xs transition"
             >
               সরাসরি ভাড়া অনুরোধ
             </Link>

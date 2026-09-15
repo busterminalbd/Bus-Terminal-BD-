@@ -69,7 +69,7 @@ export default function DistrictsPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8">
       {/* Header */}
       <div className="border-b border-slate-200 pb-6">
-        <div className="flex items-center gap-2 text-emerald-600 font-bold text-xs uppercase tracking-wider mb-1">
+        <div className="flex items-center gap-2 text-red-600 font-bold text-xs uppercase tracking-wider mb-1">
           <MapPin className="w-4 h-4" />
           <span>ভৌগোলিক পরিধি</span>
         </div>
@@ -88,7 +88,7 @@ export default function DistrictsPage() {
             placeholder="জেলার নাম বা বিভাগ দিয়ে খুঁজুন..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-hidden shadow-2xs"
+            className="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-red-500 focus:outline-hidden shadow-2xs"
           />
         </div>
       </div>
@@ -111,7 +111,7 @@ export default function DistrictsPage() {
           {Object.entries(groupedByDivision).map(([division, distList]) => (
             <div key={division} className="space-y-4">
               <div className="flex items-center gap-2 border-b border-slate-200 pb-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-600" />
+                <span className="w-2.5 h-2.5 rounded-full bg-red-600" />
                 <h2 className="text-xl font-bold text-slate-900">
                   {division} বিভাগ
                 </h2>
@@ -123,17 +123,17 @@ export default function DistrictsPage() {
                   <Link
                     key={d.id}
                     href={`/districts/${d.slug || d.id}`}
-                    className="p-3.5 bg-white rounded-xl border border-slate-200/80 hover:border-emerald-500 hover:shadow-xs transition group flex items-center justify-between"
+                    className="p-3.5 bg-white rounded-xl border border-slate-200/80 hover:border-red-500 hover:shadow-xs transition group flex items-center justify-between"
                   >
                     <div className="min-w-0">
-                      <span className="text-sm font-bold text-slate-800 group-hover:text-emerald-700 transition-colors block truncate">
+                      <span className="text-sm font-bold text-slate-800 group-hover:text-red-700 transition-colors block truncate">
                         {d.name}
                       </span>
                       <span className="text-[10px] text-slate-400 block mt-0.5">
                         বাস ও কাউন্টার
                       </span>
                     </div>
-                    <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-emerald-600 shrink-0" />
+                    <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-red-600 shrink-0" />
                   </Link>
                 ))}
               </div>

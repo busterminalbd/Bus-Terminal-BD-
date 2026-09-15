@@ -38,7 +38,7 @@ export default function MiniCoachCard({ coach }: MiniCoachCardProps) {
 
       <div className="p-5 flex-1 flex flex-col justify-between">
         <div>
-          <h3 className="text-base font-bold text-slate-900 group-hover:text-emerald-700 transition-colors">
+          <h3 className="text-base font-bold text-slate-900 group-hover:text-red-700 transition-colors">
             {coach.name}
           </h3>
 
@@ -51,7 +51,7 @@ export default function MiniCoachCard({ coach }: MiniCoachCardProps) {
             )}
             {coach.phone && (
               <div className="flex items-center gap-1.5 font-mono">
-                <Phone className="w-3.5 h-3.5 text-emerald-600" />
+                <Phone className="w-3.5 h-3.5 text-red-600" />
                 <span>{coach.phone}</span>
               </div>
             )}
@@ -95,14 +95,14 @@ export default function MiniCoachCard({ coach }: MiniCoachCardProps) {
         <div className="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
           <Link
             href={`/mini-coaches/${coach.slug || coach.id}`}
-            className="text-xs font-bold text-emerald-700 hover:text-emerald-800 flex items-center gap-1"
+            className="text-xs font-bold text-red-700 hover:text-red-800 flex items-center gap-1"
           >
             <span>বিস্তারিত</span>
             <ChevronRight className="w-3.5 h-3.5" />
           </Link>
           <Link
             href={`/booking?type=mini_coach&mini_coach_id=${coach.id}&name=${encodeURIComponent(coach.name)}`}
-            className="px-3 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-xs font-bold transition"
+            className="px-3 py-1.5 rounded-lg bg-red-50 hover:bg-red-100 text-red-800 text-xs font-bold transition"
           >
             ভাড়া অনুরোধ
           </Link>

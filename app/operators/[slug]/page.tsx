@@ -102,7 +102,7 @@ export default function OperatorDetailPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <ErrorMessage message={error || 'অপারেটরটি পাওয়া যায়নি।'} />
         <div className="text-center mt-4">
-          <Link href="/operators" className="inline-flex items-center gap-1.5 text-emerald-700 font-bold text-sm">
+          <Link href="/operators" className="inline-flex items-center gap-1.5 text-red-700 font-bold text-sm">
             <ArrowLeft className="w-4 h-4" />
             <span>অপারেটর তালিকায় ফিরে যান</span>
           </Link>
@@ -117,7 +117,7 @@ export default function OperatorDetailPage() {
       <div>
         <Link
           href="/operators"
-          className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-emerald-700 transition"
+          className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-red-700 transition"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>সকল অপারেটর</span>
@@ -147,7 +147,7 @@ export default function OperatorDetailPage() {
               <h1 className="text-2xl sm:text-3xl font-black text-slate-900">
                 {operator.name}
               </h1>
-              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold border border-emerald-200">
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-red-50 text-red-700 text-xs font-bold border border-red-200">
                 <ShieldCheck className="w-3.5 h-3.5" />
                 <span>অনুমোদিত পরিবহন</span>
               </span>
@@ -166,7 +166,7 @@ export default function OperatorDetailPage() {
                   href={`tel:${operator.phone}`}
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 rounded-lg transition"
                 >
-                  <Phone className="w-3.5 h-3.5 text-emerald-600" />
+                  <Phone className="w-3.5 h-3.5 text-red-600" />
                   <span className="font-mono">{operator.phone}</span>
                 </a>
               )}
@@ -210,7 +210,7 @@ export default function OperatorDetailPage() {
           </div>
           <Link
             href={`/booking?type=bus`}
-            className="text-xs font-bold px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl shadow-xs"
+            className="text-xs font-bold px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl shadow-xs"
           >
             বুকিং অনুরোধ
           </Link>

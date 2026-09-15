@@ -228,12 +228,12 @@ function SearchContent() {
               placeholder="কী খুঁজতে চান? যেমন: গ্রিন লাইন, ঢাকা, সিলেট, এসি..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className="w-full pl-12 pr-4 py-3.5 bg-white border border-slate-200 rounded-2xl text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-hidden shadow-xs"
+              className="w-full pl-12 pr-4 py-3.5 bg-white border border-slate-200 rounded-2xl text-sm focus:ring-2 focus:ring-red-500 focus:outline-hidden shadow-xs"
             />
           </div>
           <button
             type="submit"
-            className="px-6 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm rounded-2xl shadow-xs transition"
+            className="px-6 py-3.5 bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm rounded-2xl shadow-xs transition"
           >
             অনুসন্ধান
           </button>
@@ -258,7 +258,7 @@ function SearchContent() {
           {operators.length > 0 && (
             <div className="space-y-4">
               <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-                <Building2 className="w-4 h-4 text-emerald-600" />
+                <Building2 className="w-4 h-4 text-red-600" />
                 <span>অপারেটরসমূহ ({operators.length})</span>
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -273,7 +273,7 @@ function SearchContent() {
           {buses.length > 0 && (
             <div className="space-y-4">
               <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-                <Bus className="w-4 h-4 text-emerald-600" />
+                <Bus className="w-4 h-4 text-red-600" />
                 <span>বাসসমূহ ({buses.length})</span>
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -288,7 +288,7 @@ function SearchContent() {
           {routes.length > 0 && (
             <div className="space-y-4">
               <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-                <RouteIcon className="w-4 h-4 text-emerald-600" />
+                <RouteIcon className="w-4 h-4 text-red-600" />
                 <span>রুটসমূহ ({routes.length})</span>
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -303,7 +303,7 @@ function SearchContent() {
           {tours.length > 0 && (
             <div className="space-y-4">
               <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-                <Compass className="w-4 h-4 text-emerald-600" />
+                <Compass className="w-4 h-4 text-red-600" />
                 <span>ট্যুর প্যাকেজসমূহ ({tours.length})</span>
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

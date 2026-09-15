@@ -12,7 +12,7 @@ export default function AboutPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-12">
       {/* Header */}
       <div className="text-center space-y-3 max-w-2xl mx-auto">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-100 text-red-800 text-xs font-bold">
           <Bus className="w-3.5 h-3.5" />
           <span>জাতীয় বাস যোগাযোগ প্ল্যাটফর্ম</span>
         </div>
@@ -38,8 +38,8 @@ export default function AboutPage() {
           </div>
 
           <div className="grid grid-cols-2 gap-4">
-            <div className="p-5 bg-emerald-50 rounded-2xl border border-emerald-100 space-y-2">
-              <ShieldCheck className="w-6 h-6 text-emerald-600" />
+            <div className="p-5 bg-red-50 rounded-2xl border border-red-100 space-y-2">
+              <ShieldCheck className="w-6 h-6 text-red-600" />
               <h3 className="font-bold text-slate-900 text-sm">যাচাইকৃত তথ্য</h3>
               <p className="text-xs text-slate-600 leading-relaxed">
                 অ্যান্ড্রয়েড অ্যাডমিন প্যানেল থেকে সরাসরি হালনাগাদকৃত রিয়েল-টাইম ডাটা।

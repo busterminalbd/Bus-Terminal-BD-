@@ -19,11 +19,11 @@ export default function RouteCard({ route, fareAmount }: RouteCardProps) {
         <div className="flex items-center justify-between gap-3 mb-3">
           <div className="flex items-center gap-2">
             <span className="text-base font-black text-slate-900">{fromName}</span>
-            <ArrowRight className="w-4 h-4 text-emerald-600 shrink-0" />
+            <ArrowRight className="w-4 h-4 text-red-600 shrink-0" />
             <span className="text-base font-black text-slate-900">{toName}</span>
           </div>
           {fareAmount ? (
-            <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg shrink-0">
+            <span className="text-xs font-bold text-red-700 bg-red-50 px-2.5 py-1 rounded-lg shrink-0">
               ৳ {fareAmount}
             </span>
           ) : null}
@@ -55,7 +55,7 @@ export default function RouteCard({ route, fareAmount }: RouteCardProps) {
       <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
         <Link
           href={`/routes/${route.id}`}
-          className="text-xs font-bold text-emerald-700 hover:text-emerald-800 flex items-center gap-1"
+          className="text-xs font-bold text-red-700 hover:text-red-800 flex items-center gap-1"
         >
           <Bus className="w-3.5 h-3.5" />
           <span>বাস ও সময়সূচি দেখুন</span>
@@ -63,7 +63,7 @@ export default function RouteCard({ route, fareAmount }: RouteCardProps) {
         </Link>
         <Link
           href={`/booking?type=route&from=${encodeURIComponent(fromName)}&to=${encodeURIComponent(toName)}`}
-          className="text-xs font-semibold text-slate-600 hover:text-emerald-600"
+          className="text-xs font-semibold text-slate-600 hover:text-red-600"
         >
           বুকিং
         </Link>
