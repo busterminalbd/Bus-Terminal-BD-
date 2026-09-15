@@ -1,6 +1,0 @@
-{
-  "name": "Bus Terminal BD",
-  "description": "বাংলাদেশের বাস ও ভ্রমণ তথ্যের সহজ ঠিকানা - বাস, অপারেটর, রুট, ভাড়া, কাউন্টার ও ট্যুর বুকিং",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}
